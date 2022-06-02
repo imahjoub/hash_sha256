@@ -41,9 +41,9 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: '0'
-      - name: gcc-clang-native
+      - name: apple-gcc-clang-native
         run: |
-          echo "gcc-clang-native"
+          echo "apple-gcc-clang-native"
           echo "${{ matrix.compiler }} -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256_test.cpp -I. -o hash_sha256_test.exe"
           ${{ matrix.compiler }} -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256_test.cpp -I. -o hash_sha256_test.exe
           echo "ls ./hash_sha256_test.exe"
