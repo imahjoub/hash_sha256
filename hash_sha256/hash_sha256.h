@@ -14,18 +14,18 @@
   {
   public:
     hash_sha256():
-     m_blocklen(0U),
-     m_bitlen  (0U)
-     {
-       m_state[0U] = 0x6A09E667U;
-       m_state[1U] = 0xBB67AE85U;
-       m_state[2U] = 0x3C6EF372U;
-       m_state[3U] = 0xA54FF53AU;
-       m_state[4U] = 0x510E527FU;
-       m_state[5U] = 0x9B05688CU;
-       m_state[6U] = 0x1F83D9ABU;
-       m_state[7U] = 0x5BE0CD19U;
-    }
+      m_blocklen(0U),
+      m_bitlen  (0U)
+      {
+        init_hash_val[0U] = 0x6A09E667U; 
+        init_hash_val[1U] = 0xBB67AE85U;
+        init_hash_val[2U] = 0x3C6EF372U;
+        init_hash_val[3U] = 0xA54FF53AU;
+        init_hash_val[4U] = 0x510E527FU;
+        init_hash_val[5U] = 0x9B05688CU;
+        init_hash_val[6U] = 0x1F83D9ABU;
+        init_hash_val[7U] = 0x5BE0CD19U;
+      }
 
     void update(const std::uint8_t* data, std::size_t length)
     {
@@ -73,7 +73,7 @@
     std::uint8_t  m_data[64U];
     std::uint32_t m_blocklen;
     std::uint64_t m_bitlen;
-    std::uint32_t m_state[8U]; //A, B, C, D, E, F, G, H
+    std::uint32_t init_hash_val[8U]; //A, B, C, D, E, F, G, H
 
     static constexpr std::array<std::uint32_t, 64U> K =
     {
@@ -141,7 +141,7 @@
 
       for(std::uint8_t i = 0 ; i < 8 ; i++)
       {
-        state[i] = m_state[i];
+        state[i] = init_hash_val[i];
       }
 
       for (std::uint8_t i = 0; i < 64; i++)
@@ -169,7 +169,7 @@
 
       for(std::uint8_t i = 0U; i < 8U; ++i)
       {
-        m_state[i] += state[i];
+        init_hash_val[i] += state[i];
       }
 
     }
@@ -214,7 +214,7 @@
       {
         for(std::uint8_t j = 0 ; j < 8 ; j++)
         {
-          hash[i + (j * 4)] = ((m_state[j] >> (24 - i * 8)) & 0X000000FFU);
+          hash[i + (j * 4)] = ((init_hash_val[j] >> (24 - i * 8)) & 0X000000FFU);
         }
       }
     }
