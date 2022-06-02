@@ -44,7 +44,7 @@
       }
     }
 
-    hash_output_type digest()
+    auto digest() -> hash_output_type
     {
       hash_output_type hash; //= new std::uint8_t[32];
 
@@ -112,12 +112,12 @@
 
     static auto sig0(std::uint32_t x) -> std::uint32_t
     {
-      return hash_sha256::rotr(x, 7) ^ hash_sha256::rotr(x, 18) ^ (x >> 3);
+      return rotr(x, 7) ^ rotr(x, 18) ^ (x >> 3);
     }
 
     static auto sig1(std::uint32_t x) -> std::uint32_t
     {
-      return hash_sha256::rotr(x, 17) ^ hash_sha256::rotr(x, 19) ^ (x >> 10);
+      return rotr(x, 17) ^ rotr(x, 19) ^ (x >> 10);
     }
 
     auto transform() -> void
@@ -137,7 +137,7 @@
       for(std::uint8_t k = 16U; k < 64U; ++k)
       {
         // Remaining 48 blocks
-        m[k] = hash_sha256::sig1(m[k - 2U]) + m[k - 7U] + hash_sha256::sig0(m[k - 15U]) + m[k - 16U];
+        m[k] = sig1(m[k - 2U]) + m[k - 7U] + sig0(m[k - 15U]) + m[k - 16U];
       }
 
       for(std::uint8_t i = 0U; i < 8U; ++i)
@@ -147,16 +147,14 @@
 
       for(std::uint8_t i = 0U; i < 64U; ++i)
       {
-        maj   = hash_sha256::majority(state[0U], state[1U], state[2U]);
-        xorA  = hash_sha256::rotr(state[0U], 2U) ^ hash_sha256::rotr(state[0U], 13U) ^ hash_sha256::rotr(state[0U], 22U);
+        maj   = majority(state[0U], state[1U], state[2U]);
+        xorA  = (rotr(state[0U], 2U) ^ rotr(state[0U], 13U) ^ rotr(state[0U], 22U));
+        ch    = choose(state[4U], state[5U], state[6U]);
+        xorE  = rotr(state[4U], 6U) ^ rotr(state[4U], 11U) ^ rotr(state[4U], 25U);
+        sum   = (m[i] + K[i] + state[7U] + ch + xorE);
 
-        ch = choose(state[4U], state[5U], state[6U]);
-
-        xorE  = hash_sha256::rotr(state[4U], 6U) ^ hash_sha256::rotr(state[4U], 11U) ^ hash_sha256::rotr(state[4U], 25U);
-
-        sum  = m[i] + K[i] + state[7U] + ch + xorE;
-        newA = xorA + maj + sum;
-        newE = state[3U] + sum;
+        newA  = (xorA + maj + sum);
+        newE  = (state[3U] + sum);
 
         state[7U] = state[6U];
         state[6U] = state[5U];
