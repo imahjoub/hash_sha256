@@ -52,7 +52,6 @@ jobs:
   msvc-release-x64:
     runs-on: windows-2019
     steps:
-      - uses: actions/checkout@v2
         with:
           fetch-depth: '0'
         run: |
