@@ -1,4 +1,4 @@
-name: hash_sha256
+name: hash_sha256_test
 on:
   push:
     branches:
@@ -22,8 +22,8 @@ jobs:
       - name: gcc-clang-native
         run: |
           echo "gcc-clang-native"
-          echo "g++ -Wall -Wextra -Wpedantic -O3 -std=c++11 hash_sha256.cpp -I. -o hash_sha256.exe"
-          g++ -Wall -Wextra -Wpedantic -O3 -std=c++11 hash_sha256.cpp -I. -o hash_sha256.exe
-          echo "ls ./hash_sha256.exe"
-          ls -la ./hash_sha256.exe
-          ./hash_sha256.exe
+          echo "g++ -Wall -Wextra -Wpedantic -O3 -std=c++11 hash_sha256_test.cpp -I. -o hash_sha256_test.exe"
+          g++ -Wall -Wextra -Wpedantic -O3 -std=c++11 hash_sha256_test.cpp -I. -o hash_sha256_test.exe
+          echo "ls ./hash_sha256_test.exe"
+          ls -la ./hash_sha256_test.exe
+          ./hash_sha256_test.exe
