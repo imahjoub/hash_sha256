@@ -6,14 +6,14 @@ on:
   pull_request:
 jobs:
   gcc-clang-native:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     defaults:
       run:
         shell: bash
     strategy:
       fail-fast: false
       matrix:
-        standard: [ c++11, c++20 ]
+        standard: [ c++17, c++20 ]
         compiler: [ g++, clang++ ]
     steps:
       - uses: actions/checkout@v2
@@ -22,8 +22,8 @@ jobs:
       - name: gcc-clang-native
         run: |
           echo "gcc-clang-native"
-          echo "g++ -Wall -Wextra -Wpedantic -O3 -std=c++11 hash_sha256_test.cpp -I. -o hash_sha256_test.exe"
-          g++ -Wall -Wextra -Wpedantic -O3 -std=c++11 hash_sha256_test.cpp -I. -o hash_sha256_test.exe
+          echo "${{ matrix.compiler }} -Wall -Wextra -Wpedantic -O3 -std=${{ matrix.standard }} hash_sha256_test.cpp -I. -o hash_sha256_test.exe"
+          ${{ matrix.compiler }} -Wall -Wextra -Wpedantic -O3 -std=${{ matrix.standard }} hash_sha256_test.cpp -I. -o hash_sha256_test.exe
           echo "ls ./hash_sha256_test.exe"
           ls -la ./hash_sha256_test.exe
           ./hash_sha256_test.exe
