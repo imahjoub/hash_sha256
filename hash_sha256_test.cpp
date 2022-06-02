@@ -3,7 +3,7 @@
 
 int main()
 {
-  hash_sha256 sha_256;
+  hash_sha256 my_sha256;
 
   const std::array<uint8_t, 3U> my_msg = { 'a', 'b', 'c'};
 
@@ -15,9 +15,9 @@ int main()
     0xB4U, 0x10U, 0xFFU, 0x61U, 0xF2U, 0x00U, 0x15U, 0xADU
   };
 
-  sha_256.update(my_msg.data(), my_msg.size());
+  my_sha256.update(my_msg.data(), my_msg.size());
 
-  hash_output_type digest = sha_256.digest();
+  hash_output_type digest = my_sha256.digest();
 
   const bool hash_is_ok = (digest == my_hash);
 
