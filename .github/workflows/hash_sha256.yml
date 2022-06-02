@@ -22,8 +22,8 @@ jobs:
       - name: gcc-clang-native
         run: |
           echo "gcc-clang-native"
-          echo "${{ matrix.compiler }} -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256_test.cpp -I. -o hash_sha256_test.exe"
-          ${{ matrix.compiler }} -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256_test.cpp -I. -o hash_sha256_test.exe
+          echo "${{ matrix.compiler }} -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256_test.cpp -I. -o hash_sha256_test.exe"
+          ${{ matrix.compiler }} -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256_test.cpp -I. -o hash_sha256_test.exe
           echo "ls ./hash_sha256_test.exe"
           ls -la ./hash_sha256_test.exe
           ./hash_sha256_test.exe
@@ -44,8 +44,8 @@ jobs:
       - name: apple-gcc-clang-native
         run: |
           echo "apple-gcc-clang-native"
-          echo "${{ matrix.compiler }} -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256_test.cpp -I. -o hash_sha256_test.exe"
-          ${{ matrix.compiler }} -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256_test.cpp -I. -o hash_sha256_test.exe
+          echo "${{ matrix.compiler }} -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256_test.cpp -I. -o hash_sha256_test.exe"
+          ${{ matrix.compiler }} -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256_test.cpp -I. -o hash_sha256_test.exe
           echo "ls ./hash_sha256_test.exe"
           ls -la ./hash_sha256_test.exe
           ./hash_sha256_test.exe
