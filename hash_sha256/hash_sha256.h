@@ -207,7 +207,7 @@
       transform();
     }
 
-    void revert(std::uint8_t* hash)
+    auto revert(std::uint8_t* hash) -> void
     {
       // SHA uses big endian byte ordering
       // Revert all bytes
