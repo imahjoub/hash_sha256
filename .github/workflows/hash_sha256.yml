@@ -55,6 +55,8 @@ jobs:
         with:
           fetch-depth: '0'
         run: |
+      - uses: actions/checkout@v1
+      - uses: ilammy/msvc-dev-cmd@v1
       - name: msvc-release-x64
         shell: cmd
         working-directory: ./
