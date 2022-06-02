@@ -1,0 +1,13 @@
+
+.vs/hash_sha256/v15/ipch/AutoPCH/5bacee15e2e86c8a/HASH_SHA256_TEST.ipch
+.vs/hash_sha256/v15/.suo
+*.db
+*.user
+*.pdb
+*.tlog
+*.log
+*.iobj
+*.exe
+*.ipdb
+*.opendb
+*.obj
