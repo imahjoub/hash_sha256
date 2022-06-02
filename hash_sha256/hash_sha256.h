@@ -127,7 +127,10 @@
       for (std::uint8_t i = 0, j = 0; i < 16; i++, j += 4)
       {
         // Split data in 32 bit blocks for the 16 first words
-        m[i] = (m_data[j] << 24) | (m_data[j + 1] << 16) | (m_data[j + 2] << 8) | (m_data[j + 3]);
+        m[i] = static_cast<std::uint32_t>(   static_cast<std::uint32_t>(static_cast<std::uint32_t>(m_data[j + 0U]) << 24U)
+                                           | static_cast<std::uint32_t>(static_cast<std::uint32_t>(m_data[j + 1U]) << 16U)
+                                           | static_cast<std::uint32_t>(static_cast<std::uint32_t>(m_data[j + 2U]) <<  8U)
+                                           | static_cast<std::uint32_t>(static_cast<std::uint32_t>(m_data[j + 3U]) <<  0U));
       }
 
       for (std::uint8_t k = 16 ; k < 64; k++)
