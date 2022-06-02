@@ -61,7 +61,7 @@
 
       s << std::setfill('0') << std::hex;
 
-      for(std::uint8_t i = 0 ; i < 32 ; i++)
+      for(std::uint8_t i = 0U; i < 32U; ++i)
       {
         s << std::setw(2) << (unsigned int) digest[i];
       }
@@ -157,17 +157,17 @@
         newA = xorA + maj + sum;
         newE = state[3] + sum;
 
-        state[7] = state[6];
-        state[6] = state[5];
-        state[5] = state[4];
-        state[4] = newE;
-        state[3] = state[2];
-        state[2] = state[1];
-        state[1] = state[0];
-        state[0] = newA;
+        state[7U] = state[6U];
+        state[6U] = state[5U];
+        state[5U] = state[4U];
+        state[4U] = newE;
+        state[3U] = state[2U];
+        state[2U] = state[1U];
+        state[1U] = state[0U];
+        state[0U] = newA;
       }
 
-      for(std::uint8_t i = 0 ; i < 8 ; i++)
+      for(std::uint8_t i = 0U; i < 8U; ++i)
       {
         m_state[i] += state[i];
       }
@@ -177,13 +177,13 @@
     void pad()
     {
       uint64_t i       = m_blocklen;
-      std::uint8_t end = m_blocklen < 56 ? 56 : 64;
+      std::uint8_t end = (m_blocklen < 56) ? 56 : 64;
 
-      m_data[i++] = 0x80; // Append a bit 1
+      m_data[i++] = 0x80U; // Append a bit 1
 
       while (i < end)
       {
-        m_data[i++] = 0x00; // Pad with zeros
+        m_data[i++] = 0x00U; // Pad with zeros
       }
 
       if(m_blocklen >= 56)
