@@ -49,3 +49,20 @@ jobs:
           echo "ls ./hash_sha256_test.exe"
           ls -la ./hash_sha256_test.exe
           ./hash_sha256_test.exe
+  msvc-release-x64:
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
+        run: |
+      - uses: actions/checkout@v1
+      - uses: ilammy/msvc-dev-cmd@v1
+      - name: msvc-release-x64
+        shell: cmd
+        working-directory: ./
+        run: |
+          set INCLUDE=%cd%;%INCLUDE%
+          MSBuild -m hash_sha256.sln -p:useenv=true -p:Configuration=Release -p:Platform=x64 /t:Rebuild
+          dir %cd%\x64\Release\hash_sha256_test.exe
+          %cd%\x64\Release\hash_sha256_test.exe
