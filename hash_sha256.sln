@@ -5,6 +5,13 @@ VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hash_sha256", "hash_sha256.vcxproj", "{0847B12D-127E-4773-A631-7B6995F5AEBC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{378E6274-F1DA-441A-A8A9-2C54C430352D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{4C73F908-5094-43CF-9428-969D2C1E52B5}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\hash_sha256.yml = .github\workflows\hash_sha256.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -18,6 +25,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4C73F908-5094-43CF-9428-969D2C1E52B5} = {378E6274-F1DA-441A-A8A9-2C54C430352D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6D3105D6-1DC9-4433-8544-523CE444B2A5}

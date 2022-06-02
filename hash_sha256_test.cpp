@@ -22,4 +22,6 @@ int main()
   const bool hash_is_ok = (digest == my_hash);
 
   std::cout << "hash_is_ok: " << std::boolalpha << hash_is_ok << std::endl;
+
+  return hash_is_ok ? 0 : -1;
 }
