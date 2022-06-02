@@ -44,7 +44,7 @@
       }
     }
 
-    hash_output_type digest()
+    auto digest() -> hash_output_type
     {
       hash_output_type hash; //= new std::uint8_t[32];
 
