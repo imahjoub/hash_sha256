@@ -112,12 +112,12 @@
 
     static auto sig0(std::uint32_t x) -> std::uint32_t
     {
-      return hash_sha256::rotr(x, 7) ^ hash_sha256::rotr(x, 18) ^ (x >> 3);
+      return rotr(x, 7) ^ hash_sha256::rotr(x, 18) ^ (x >> 3);
     }
 
     static auto sig1(std::uint32_t x) -> std::uint32_t
     {
-      return hash_sha256::rotr(x, 17) ^ hash_sha256::rotr(x, 19) ^ (x >> 10);
+      return rotr(x, 17) ^ hash_sha256::rotr(x, 19) ^ (x >> 10);
     }
 
     auto transform() -> void
