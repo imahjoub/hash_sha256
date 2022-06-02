@@ -3,6 +3,7 @@
 
   #include <array>
   #include <cstdint>
+  #include <cstring>
   #include <iomanip>
   #include <string>
   #include <sstream>
