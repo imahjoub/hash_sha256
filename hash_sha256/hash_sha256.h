@@ -27,13 +27,13 @@
         init_hash_val[7U] = 0x5BE0CD19U;
       }
 
-    void update(const std::uint8_t* data, std::size_t length)
+    auto update(const std::uint8_t* data, std::size_t length) -> void
     {
-      for (std::size_t i = 0 ; i < length ; i++)
+      for(std::size_t i = 0 ; i < length ; i++)
       {
         m_data[m_blocklen++] = data[i];
 
-        if (m_blocklen == 64)
+        if(m_blocklen == 64)
         {
           transform();
 
@@ -44,7 +44,7 @@
       }
     }
 
-    hash_output_type digest()
+    auto digest() -> hash_output_type
     {
       hash_output_type hash; //= new std::uint8_t[32];
 
@@ -55,7 +55,7 @@
       return hash;
     }
 
-    static std::string toString(const std::uint8_t * digest)
+    static auto toString(const std::uint8_t * digest) -> std::string
     {
       std::stringstream s;
 
@@ -95,36 +95,37 @@
       0x90BEFFFAU, 0xA4506CEBU, 0xBEF9A3F7U, 0xC67178F2U
     };
 
-    static std::uint32_t rotr(std::uint32_t x, std::uint32_t n)
+    static auto rotr(std::uint32_t x, std::uint32_t n) -> std::uint32_t
     {
       return (x >> n) | (x << (32 - n));
     }
 
-    static std::uint32_t choose(std::uint32_t e, std::uint32_t f, std::uint32_t g)
+    static auto choose(std::uint32_t e, std::uint32_t f, std::uint32_t g) -> std::uint32_t
     {
       return (e & f) ^ (~e & g);
     }
-    static std::uint32_t majority(std::uint32_t a, std::uint32_t b, std::uint32_t c)
+
+    static auto majority(std::uint32_t a, std::uint32_t b, std::uint32_t c) -> std::uint32_t
     {
       return (a & (b | c)) | (b & c);
     }
 
-    static std::uint32_t sig0(std::uint32_t x)
+    static auto sig0(std::uint32_t x) -> std::uint32_t
     {
-      return hash_sha256::rotr(x, 7) ^ hash_sha256::rotr(x, 18) ^ (x >> 3);
+      return rotr(x, 7) ^ rotr(x, 18) ^ (x >> 3);
     }
 
-    static std::uint32_t sig1(std::uint32_t x)
+    static auto sig1(std::uint32_t x) -> std::uint32_t
     {
-      return hash_sha256::rotr(x, 17) ^ hash_sha256::rotr(x, 19) ^ (x >> 10);
+      return rotr(x, 17) ^ rotr(x, 19) ^ (x >> 10);
     }
 
-    void transform()
+    auto transform() -> void
     {
       uint32_t maj, xorA, ch, xorE, sum, newA, newE, m[64];
       uint32_t state[8];
 
-      for (std::uint8_t i = 0, j = 0; i < 16; i++, j += 4)
+      for(std::uint8_t i = 0U, j = 0U; i < 16U; ++i, j += 4)
       {
         // Split data in 32 bit blocks for the 16 first words
         m[i] = static_cast<std::uint32_t>(   static_cast<std::uint32_t>(static_cast<std::uint32_t>(m_data[j + 0U]) << 24U)
@@ -133,29 +134,27 @@
                                            | static_cast<std::uint32_t>(static_cast<std::uint32_t>(m_data[j + 3U]) <<  0U));
       }
 
-      for (std::uint8_t k = 16 ; k < 64; k++)
+      for(std::uint8_t k = 16U; k < 64U; ++k)
       {
         // Remaining 48 blocks
-        m[k] = hash_sha256::sig1(m[k - 2]) + m[k - 7] + hash_sha256::sig0(m[k - 15]) + m[k - 16];
+        m[k] = sig1(m[k - 2U]) + m[k - 7U] + sig0(m[k - 15U]) + m[k - 16U];
       }
 
-      for(std::uint8_t i = 0 ; i < 8 ; i++)
+      for(std::uint8_t i = 0U; i < 8U; ++i)
       {
         state[i] = init_hash_val[i];
       }
 
-      for (std::uint8_t i = 0; i < 64; i++)
+      for(std::uint8_t i = 0U; i < 64U; ++i)
       {
-        maj   = hash_sha256::majority(state[0], state[1], state[2]);
-        xorA  = hash_sha256::rotr(state[0], 2) ^ hash_sha256::rotr(state[0], 13) ^ hash_sha256::rotr(state[0], 22);
+        maj   = majority(state[0U], state[1U], state[2U]);
+        xorA  = (rotr(state[0U], 2U) ^ rotr(state[0U], 13U) ^ rotr(state[0U], 22U));
+        ch    = choose(state[4U], state[5U], state[6U]);
+        xorE  = rotr(state[4U], 6U) ^ rotr(state[4U], 11U) ^ rotr(state[4U], 25U);
+        sum   = (m[i] + K[i] + state[7U] + ch + xorE);
 
-        ch = choose(state[4], state[5], state[6]);
-
-        xorE  = hash_sha256::rotr(state[4], 6) ^ hash_sha256::rotr(state[4], 11) ^ hash_sha256::rotr(state[4], 25);
-
-        sum  = m[i] + K[i] + state[7] + ch + xorE;
-        newA = xorA + maj + sum;
-        newE = state[3] + sum;
+        newA  = (xorA + maj + sum);
+        newE  = (state[3U] + sum);
 
         state[7U] = state[6U];
         state[6U] = state[5U];
@@ -186,35 +185,35 @@
         m_data[i++] = 0x00U; // Pad with zeros
       }
 
-      if(m_blocklen >= 56)
+      if(m_blocklen >= 56U)
       {
         transform();
-        memset(m_data, 0, 56);
+        memset(m_data, 0U, 56U);
       }
 
       // Append to the padding the total message's length in bits and transform.
-      m_bitlen   += static_cast<std::uint8_t>(m_blocklen * 8);
-      m_data[63U] = static_cast<std::uint8_t>(m_bitlen);
-      m_data[62U] = static_cast<std::uint8_t>(m_bitlen >> 8);
-      m_data[61U] = static_cast<std::uint8_t>(m_bitlen >> 16);
-      m_data[60U] = static_cast<std::uint8_t>(m_bitlen >> 24);
-      m_data[59U] = static_cast<std::uint8_t>(m_bitlen >> 32);
-      m_data[58U] = static_cast<std::uint8_t>(m_bitlen >> 40);
-      m_data[57U] = static_cast<std::uint8_t>(m_bitlen >> 48);
-      m_data[56U] = static_cast<std::uint8_t>(m_bitlen >> 56);
+      m_bitlen   += static_cast<std::uint8_t>(m_blocklen * 8U);
+      m_data[63U] = static_cast<std::uint8_t>(m_bitlen >>  0U);
+      m_data[62U] = static_cast<std::uint8_t>(m_bitlen >>  8U);
+      m_data[61U] = static_cast<std::uint8_t>(m_bitlen >> 16U);
+      m_data[60U] = static_cast<std::uint8_t>(m_bitlen >> 24U);
+      m_data[59U] = static_cast<std::uint8_t>(m_bitlen >> 32U);
+      m_data[58U] = static_cast<std::uint8_t>(m_bitlen >> 40U);
+      m_data[57U] = static_cast<std::uint8_t>(m_bitlen >> 48U);
+      m_data[56U] = static_cast<std::uint8_t>(m_bitlen >> 56U);
 
       transform();
     }
 
-    void revert(std::uint8_t* hash)
+    auto revert(std::uint8_t* hash) -> void
     {
       // SHA uses big endian byte ordering
       // Revert all bytes
-      for (std::uint8_t i = 0 ; i < 4 ; i++)
+      for(std::uint8_t i = 0U; i < 4U; ++i)
       {
-        for(std::uint8_t j = 0 ; j < 8 ; j++)
+        for(std::uint8_t j = 0U; j < 8U; ++j)
         {
-          hash[i + (j * 4)] = ((init_hash_val[j] >> (24 - i * 8)) & 0X000000FFU);
+          hash[i + (j * 4U)] = ((init_hash_val[j] >> (24U - i * 8U)) & 0X000000FFU);
         }
       }
     }
