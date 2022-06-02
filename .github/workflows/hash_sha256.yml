@@ -50,7 +50,12 @@ jobs:
           ls -la ./hash_sha256_test.exe
           ./hash_sha256_test.exe
   msvc-release-x64:
-    runs-on: windows-2017
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [ g++ ]
+        standard: [ c++17, c++20]
     steps:
       - uses: actions/checkout@v2
         with:
