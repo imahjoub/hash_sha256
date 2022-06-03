@@ -49,8 +49,8 @@ jobs:
           echo "ls ./hash_sha256_test.exe"
           ls -la ./hash_sha256_test.exe
           ./hash_sha256_test.exe
-  msvc-release-x64-vs2022:
-    runs-on: windows-2019
+  msvc-release-x64-vs2017:
+    runs-on: windows-2017
     strategy:
       fail-fast: false
     steps:
@@ -58,7 +58,7 @@ jobs:
         with:
           fetch-depth: '0'
       - uses: ilammy/msvc-dev-cmd@v1
-      - name: msvc-release-x64-vs2022
+      - name: msvc-release-x64-vs2017
         shell: cmd
         working-directory: ./
         run: |
