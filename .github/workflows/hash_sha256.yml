@@ -60,9 +60,36 @@ jobs:
       - uses: ilammy/msvc-dev-cmd@v1
       - name: msvc-release-x64
         shell: cmd
-        working-directory: ./
         run: |
           set INCLUDE=%cd%;%INCLUDE%
           MSBuild -m hash_sha256.sln -p:useenv=true -p:Configuration=Release -p:Platform=x64 /t:Rebuild
           dir %cd%\Out\Bin\Release\hash_sha256.exe
           %cd%\Out\Bin\Release\hash_sha256.exe
+  gnumake-gcc-gcov-native:
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      fail-fast: false
+      matrix:
+        standard: [ c++14 ]
+        compiler: [ g++ ]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
+      - name: update-tools
+        run: sudo apt install lcov
+        run: |
+      - name: gnumake-gcc-gcov-native
+        run: |
+          cd .gcov/make
+          echo "build and run gcov/lcov/genhtml"
+      - name: upload-codecov
+        uses: codecov/codecov-action@v2
+        with:
+          files: .gcov/make/coverage.info
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+          functionalities: fix
