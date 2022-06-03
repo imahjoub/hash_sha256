@@ -49,18 +49,16 @@ jobs:
           echo "ls ./hash_sha256_test.exe"
           ls -la ./hash_sha256_test.exe
           ./hash_sha256_test.exe
-  msvc-release-x64:
+  msvc-release-x64-vs2022:
     runs-on: windows-2019
     strategy:
       fail-fast: false
-      matrix:
-        compiler: [ g++ ]
-        standard: [ c++17, c++20]
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: '0'
-      - name: msvc-release-x64
+      - uses: ilammy/msvc-dev-cmd@v1
+      - name: msvc-release-x64-vs2022
         shell: cmd
         working-directory: ./
         run: |
