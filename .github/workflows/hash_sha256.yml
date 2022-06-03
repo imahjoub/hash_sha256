@@ -64,5 +64,5 @@ jobs:
         run: |
           set INCLUDE=%cd%;%INCLUDE%
           MSBuild -m hash_sha256.sln -p:useenv=true -p:Configuration=Release -p:Platform=x64 /t:Rebuild
-          dir %cd%\x64\Release\hash_sha256_test.exe
-          %cd%\x64\Release\hash_sha256_test.exe
+          dir %cd%\Out\Bin\Release\hash_sha256_test.exe
+          %cd%\Out\Bin\Release\hash_sha256_test.exe
