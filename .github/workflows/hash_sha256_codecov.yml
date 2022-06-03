@@ -1,0 +1,33 @@
+name: hash_sha256_codecov
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+jobs:
+  gcc-clang-native:
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      fail-fast: false
+      matrix:
+        standard: [ c++14 ]
+        compiler: [ g++ ]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
+      - name: update-tools
+        run: sudo apt install lcov
+      - name: gnumake-gcc-gcov-native
+        run: |
+          echo "build and run gcov/lcov/genhtml"
+      - name: upload-codecov
+        uses: codecov/codecov-action@v2
+        with:
+          files: .gcov/make/coverage.info
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+          functionalities: fix
