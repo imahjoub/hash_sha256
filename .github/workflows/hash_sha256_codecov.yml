@@ -24,7 +24,7 @@ jobs:
       - name: gnumake-gcc-gcov-native
         run: |
           echo "build and run gcov/lcov/genhtml"
-          g++ -x -I. none -mtune=native -O2 -Wall -Wextra -Wconversion -Wsign-conversion -std=c++14 -ftest-coverage hash_sha256_test.cpp -o hash_sha256_test.exe
+          ${{ matrix.compiler }} -x none -mtune=native -O2 -Wall -Wextra -Wconversion -Wsign-conversion -std=${{ matrix.standard }} -ftest-coverage hash_sha256_test.cpp -I. -o hash_sha256_test.exe
           echo +++ execute hash_sha256_test.exe
           ./hash_sha256_test.exe
           echo
