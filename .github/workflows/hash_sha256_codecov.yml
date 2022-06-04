@@ -24,25 +24,9 @@ jobs:
       - name: gnumake-gcc-gcov-native
         run: |
           echo "build and run gcov/lcov/genhtml"
-          ${{ matrix.compiler }} -x none -mtune=native -O2 -lstdc++ -Wall -Wextra -Wconversion -Wsign-conversion -std=${{ matrix.standard }} -ftest-coverage hash_sha256_test.cpp -I. -o hash_sha256_test.exe
-          echo +++ execute hash_sha256_test.exe
+          g++ -x c++ -c -mtune=native -march=native -O2 -Wall -Wextra -Wconversion -Wsign-conversion -std=c++17 -fno-inline-functions -fprofile-arcs -ftest-coverage hash_sha256_test.cpp -I. -o hash_sha256_test.o
+          g++ -mtune=native -march=native -O2 -Wall -Wextra -Wconversion -Wsign-conversion -std=c++17 -fno-inline-functions -fprofile-arcs -ftest-coverage hash_sha256_test.o -o hash_sha256_test.exe
           ./hash_sha256_test.exe
-          echo
-          echo +++ running gcov
-          gcov $(GCOV_FLAGS) $(addsuffix .cpp,$(FILES_PRJ))
-          echo
-          echo +++ running lcov
-          lcov --rc lcov_branch_coverage=1 -c --directory obj --output-file coverage_unfiltered.info
-          lcov --rc lcov_branch_coverage=1 --remove coverage_unfiltered.info --output-file coverage.info
-          echo
-          echo +++ running genhtml
-          genhtml coverage.info --rc lcov_branch_coverage=1 --demangle-cpp --output-directory ./report
-          echo
-
-      - name: upload-codecov
-        uses: codecov/codecov-action@v2
-        with:
-          files: coverage.info
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
-          functionalities: fix
+          gcov --object-directory . --demangled-names ./hash_sha256_test.cpp
+          lcov -c --directory . --output-file coverage_unfiltered.info
+          lcov --remove coverage_unfiltered.info '/usr/*' --output-file coverage.info
