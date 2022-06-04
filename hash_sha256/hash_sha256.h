@@ -151,7 +151,7 @@
         xorA  = (rotr(state[0U], 2U) ^ rotr(state[0U], 13U) ^ rotr(state[0U], 22U));
         ch    = choose(state[4U], state[5U], state[6U]);
         xorE  = rotr(state[4U], 6U) ^ rotr(state[4U], 11U) ^ rotr(state[4U], 25U);
-        sum   = (m[i] + K[i] + state[7U] + ch + xorE);
+        sum   = (m[i] + hash_sha256::K[i] + state[7U] + ch + xorE);
 
         newA  = (xorA + maj + sum);
         newE  = (state[3U] + sum);
