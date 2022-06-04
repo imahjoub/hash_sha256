@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2035
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hash_sha256", "hash_sha256.vcxproj", "{0847B12D-127E-4773-A631-7B6995F5AEBC}"
 EndProject
@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{4C73F908-5094-43CF-9428-969D2C1E52B5}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\hash_sha256.yml = .github\workflows\hash_sha256.yml
+		.github\workflows\hash_sha256_codecov.yml = .github\workflows\hash_sha256_codecov.yml
 	EndProjectSection
 EndProject
 Global
