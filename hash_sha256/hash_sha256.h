@@ -33,13 +33,13 @@
       {
         m_data[m_blocklen++] = data[i];
 
-        if(m_blocklen == 64)
+        if(m_blocklen == 64U)
         {
           transform();
 
-         // End of the block
-         m_bitlen += 512;
-         m_blocklen = 0;
+          // End of the block
+          m_bitlen += 512;
+          m_blocklen = 0;
         }
       }
     }
@@ -175,7 +175,7 @@
 
     void pad()
     {
-      uint64_t i       = m_blocklen;
+      std::uint64_t i  = m_blocklen;
       std::uint8_t end = (m_blocklen < 56) ? 56 : 64;
 
       m_data[i++] = 0x80U; // Append a bit 1
