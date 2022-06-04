@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        standard: [ c++14 ]
+        standard: [ c++17 ]
         compiler: [ g++ ]
     steps:
       - uses: actions/checkout@v2
@@ -29,4 +29,11 @@ jobs:
           ./hash_sha256_test.exe
           gcov --object-directory . --demangled-names ./hash_sha256_test.cpp
           lcov -c --directory . --output-file coverage_unfiltered.info
-          lcov --remove coverage_unfiltered.info '/usr/*' --output-file coverage.info
+          lcov --remove coverage_unfiltered.info '/usr/*' --output-file coverage.xml
+      - name: upload-codecov
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage.xml
+          fail_ci_if_error: true
+          functionalities: fix
