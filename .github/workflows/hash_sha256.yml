@@ -88,7 +88,7 @@ jobs:
           clang-tidy --version
           echo "+++ running clang-tidy"
           echo "clang-tidy --extra-arg-before=--driver-mode=g++ -warnings-as-errors=* -checks=* hash_sha256_test.cpp . -- clang++ -mtune=native -march=native -O2 -Wall -Wextra -Wconversion -Wsign-conversion -std=c++14 > hash_sha256_test.tidy_txt 2> hash_sha256_test.tidy_err"
-          clang-tidy hash_sha256_test.cpp -- -I. -checks=-*,clang-analyzer-*,-clang-analyzer-cplusplus* > hash_sha256_test.tidy_txt
+          clang-tidy hash_sha256_test.cpp -- -I. -header-filter=.* -checks=-*,clang-analyzer-*,-clang-analyzer-cplusplus* > hash_sha256_test.tidy_txt
           echo "+++ verify existence of hash_sha256_test.tidy_txt"
           ls -la hash_sha256_test.tidy_txt 
           echo "print summary of tidy from hash_sha256_test.tidy_txt"
