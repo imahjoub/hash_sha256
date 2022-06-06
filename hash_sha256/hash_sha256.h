@@ -40,7 +40,7 @@
 
           // End of the block
           m_bitlen += 512;
-          m_blocklen = 0;
+          m_blocklen = 0U;
         }
       }
     }
@@ -81,12 +81,12 @@
       0x90BEFFFAU, 0xA4506CEBU, 0xBEF9A3F7U, 0xC67178F2U
     };
 
-    static std::uint32_t rotr(std::uint32_t x, std::uint32_t n)
+    static auto rotr(std::uint32_t x, std::uint32_t n) -> std::uint32_t
     {
       return (x >> n) | (x << (32 - n));
     }
 
-    static std::uint32_t choose(std::uint32_t e, std::uint32_t f, std::uint32_t g) 
+    static auto choose(std::uint32_t e, std::uint32_t f, std::uint32_t g) -> std::uint32_t
     {
       return (e & f) ^ (~e & g);
     }

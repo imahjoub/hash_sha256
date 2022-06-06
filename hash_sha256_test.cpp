@@ -1,7 +1,8 @@
-#include <iostream>
 #include <hash_sha256/hash_sha256.h>
 
-int main()
+#include <iostream>
+
+auto main() -> int
 {
   hash_sha256 my_sha256;
 
