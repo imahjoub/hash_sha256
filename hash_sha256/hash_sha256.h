@@ -45,7 +45,7 @@
       }
     }
 
-    hash_output_type digest()
+    auto digest() -> hash_output_type
     {
       hash_output_type hash;
       pad();
@@ -91,17 +91,17 @@
       return (e & f) ^ (~e & g);
     }
 
-    static std::uint32_t majority(std::uint32_t a, std::uint32_t b, std::uint32_t c) 
+    static auto majority(std::uint32_t a, std::uint32_t b, std::uint32_t c) -> std::uint32_t
     {
       return (a & (b | c)) | (b & c);
     }
 
-    static std::uint32_t sig0(std::uint32_t x) 
+    static auto sig0(std::uint32_t x) -> std::uint32_t
     {
       return rotr(x, 7U) ^ rotr(x, 18U) ^ (x >> 3U);
     }
 
-    static std::uint32_t sig1(std::uint32_t x) 
+    static auto sig1(std::uint32_t x) -> std::uint32_t
     {
       return rotr(x, 17U) ^ rotr(x, 19U) ^ (x >> 10U);
     }
@@ -167,7 +167,7 @@
 
     }
 
-    void pad()
+    auto pad() -> void
     {
       std::uint64_t i  = m_blocklen;
       std::uint8_t end = (m_blocklen < 56) ? 56 : 64;
