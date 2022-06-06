@@ -15,7 +15,8 @@
   public:
     hash_sha256():
       m_blocklen(0U),
-      m_bitlen  (0U)
+      m_bitlen  (0U),
+      m_data    {0U}
       {
         init_hash_val[0U] = 0x6A09E667U; 
         init_hash_val[1U] = 0xBB67AE85U;
@@ -55,24 +56,10 @@
       return hash;
     }
 
-    static auto toString(const std::uint8_t * digest) -> std::string
-    {
-      std::stringstream s;
-
-      s << std::setfill('0') << std::hex;
-
-      for(std::uint8_t i = 0U; i < 32U; ++i)
-      {
-        s << std::setw(2) << (unsigned int) digest[i];
-      }
-
-      return s.str();
-    }
-
   private:
-    std::uint8_t  m_data[64U];
-    std::uint32_t m_blocklen;
     std::uint64_t m_bitlen;
+    std::uint32_t m_blocklen;
+    std::uint8_t  m_data[64U];
     std::uint32_t init_hash_val[8U]; //A, B, C, D, E, F, G, H
 
     static constexpr std::array<std::uint32_t, 64U> K =
@@ -122,10 +109,18 @@
 
     auto transform() -> void
     {
-      uint32_t maj, xorA, ch, xorE, sum, newA, newE, m[64];
-      uint32_t state[8];
+      std::uint32_t maj      = 0U;
+      std::uint32_t xorA     = 0U;
+      std::uint32_t ch       = 0U;
+      std::uint32_t xorE     = 0U;
+      std::uint32_t sum      = 0U;
+      std::uint32_t newA     = 0U;
+      std::uint32_t newE     = 0U;
 
-      for(std::uint8_t i = 0U, j = 0U; i < 16U; ++i, j += 4)
+      std::uint32_t m[64U]    = {0U};
+      std::uint32_t state[8U] = {0U};;
+
+      for(std::uint8_t i = 0U, j = 0U; i < 16U; ++i, j += 4U)
       {
         // Split data in 32 bit blocks for the 16 first words
         m[i] = static_cast<std::uint32_t>(   static_cast<std::uint32_t>(static_cast<std::uint32_t>(m_data[j + 0U]) << 24U)
