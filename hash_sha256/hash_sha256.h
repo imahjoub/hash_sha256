@@ -14,8 +14,8 @@
   {
   public:
     hash_sha256():
-      m_blocklen(0U),
       m_bitlen  (0U),
+      m_blocklen(0U),
       m_data    {0U}
       {
         init_hash_val[0U] = 0x6A09E667U; 
