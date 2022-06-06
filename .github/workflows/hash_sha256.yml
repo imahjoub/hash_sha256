@@ -87,4 +87,4 @@ jobs:
           echo "+++ print clang-tidy version"
           clang-tidy --version
           echo "+++ running clang-tidy"
-          clang-tidy hash_sha256_test.cpp -checks=-*,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-llvm-header-guard
+          clang-tidy -checks="-*,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-llvm-header-guard" hash_sha256_test.cpp -- -I.
