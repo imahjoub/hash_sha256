@@ -32,7 +32,7 @@
     {
       for(std::size_t i = 0 ; i < length ; i++)
       {
-        m_data[m_blocklen++] = data[i];
+        m_data[m_blocklen++] = data[i]; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 
         if(m_blocklen == 64U)
         {
@@ -45,22 +45,21 @@
       }
     }
 
-    auto digest() -> hash_output_type
+    hash_output_type digest()
     {
-      hash_output_type hash; //= new std::uint8_t[32];
-
+      hash_output_type hash;
       pad();
-
       revert(hash.data());
 
       return hash;
     }
 
   private:
-    std::uint64_t m_bitlen;
-    std::uint32_t m_blocklen;
-    std::uint8_t  m_data[64U];
-    std::uint32_t m_init_hash_val[8U]; //A, B, C, D, E, F, G, H
+    std::uint64_t m_bitlen   = 0U;
+    std::uint32_t m_blocklen = 0U;
+
+    std::array<std::uint8_t,  64U> m_data          = {0U};
+    std::array<std::uint32_t,  8U> m_init_hash_val = {0U};
 
     static constexpr std::array<std::uint32_t, 64U> K =
     {
@@ -82,27 +81,27 @@
       0x90BEFFFAU, 0xA4506CEBU, 0xBEF9A3F7U, 0xC67178F2U
     };
 
-    static auto rotr(std::uint32_t x, std::uint32_t n) -> std::uint32_t
+    static std::uint32_t rotr(std::uint32_t x, std::uint32_t n)
     {
       return (x >> n) | (x << (32 - n));
     }
 
-    static auto choose(std::uint32_t e, std::uint32_t f, std::uint32_t g) -> std::uint32_t
+    static std::uint32_t choose(std::uint32_t e, std::uint32_t f, std::uint32_t g) 
     {
       return (e & f) ^ (~e & g);
     }
 
-    static auto majority(std::uint32_t a, std::uint32_t b, std::uint32_t c) -> std::uint32_t
+    static std::uint32_t majority(std::uint32_t a, std::uint32_t b, std::uint32_t c) 
     {
       return (a & (b | c)) | (b & c);
     }
 
-    static auto sig0(std::uint32_t x) -> std::uint32_t
+    static std::uint32_t sig0(std::uint32_t x) 
     {
       return rotr(x, 7U) ^ rotr(x, 18U) ^ (x >> 3U);
     }
 
-    static auto sig1(std::uint32_t x) -> std::uint32_t
+    static std::uint32_t sig1(std::uint32_t x) 
     {
       return rotr(x, 17U) ^ rotr(x, 19U) ^ (x >> 10U);
     }
@@ -137,7 +136,7 @@
 
       for(std::uint8_t i = 0U; i < 8U; ++i)
       {
-        state[i] = m_init_hash_val[i];
+        state[i] = m_init_hash_val[i]; 
       }
 
       for(std::uint8_t i = 0U; i < 64U; ++i)
@@ -183,7 +182,7 @@
       if(m_blocklen >= 56U)
       {
         transform();
-        memset(m_data, 0U, 56U);
+        memset(m_data.data(), 0U, 56U);
       }
 
       // Append to the padding the total message's length in bits and transform.
@@ -208,7 +207,7 @@
       {
         for(std::uint8_t j = 0U; j < 8U; ++j)
         {
-          hash[i + (j * 4U)] = ((m_init_hash_val[j] >> (24U - i * 8U)) & 0X000000FFU);
+          hash[i + (j * 4U)] = ((m_init_hash_val[j] >> (24U - i * 8U)) & 0X000000FFU); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
         }
       }
     }
