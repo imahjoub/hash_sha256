@@ -18,14 +18,14 @@
       m_blocklen(0U),
       m_data    {0U}
       {
-        init_hash_val[0U] = 0x6A09E667U; 
-        init_hash_val[1U] = 0xBB67AE85U;
-        init_hash_val[2U] = 0x3C6EF372U;
-        init_hash_val[3U] = 0xA54FF53AU;
-        init_hash_val[4U] = 0x510E527FU;
-        init_hash_val[5U] = 0x9B05688CU;
-        init_hash_val[6U] = 0x1F83D9ABU;
-        init_hash_val[7U] = 0x5BE0CD19U;
+        m_init_hash_val[0U] = 0x6A09E667U; 
+        m_init_hash_val[1U] = 0xBB67AE85U;
+        m_init_hash_val[2U] = 0x3C6EF372U;
+        m_init_hash_val[3U] = 0xA54FF53AU;
+        m_init_hash_val[4U] = 0x510E527FU;
+        m_init_hash_val[5U] = 0x9B05688CU;
+        m_init_hash_val[6U] = 0x1F83D9ABU;
+        m_init_hash_val[7U] = 0x5BE0CD19U;
       }
 
     auto update(const std::uint8_t* data, std::size_t length) -> void
@@ -60,7 +60,7 @@
     std::uint64_t m_bitlen;
     std::uint32_t m_blocklen;
     std::uint8_t  m_data[64U];
-    std::uint32_t init_hash_val[8U]; //A, B, C, D, E, F, G, H
+    std::uint32_t m_init_hash_val[8U]; //A, B, C, D, E, F, G, H
 
     static constexpr std::array<std::uint32_t, 64U> K =
     {
@@ -99,26 +99,26 @@
 
     static auto sig0(std::uint32_t x) -> std::uint32_t
     {
-      return rotr(x, 7) ^ rotr(x, 18) ^ (x >> 3);
+      return rotr(x, 7U) ^ rotr(x, 18U) ^ (x >> 3U);
     }
 
     static auto sig1(std::uint32_t x) -> std::uint32_t
     {
-      return rotr(x, 17) ^ rotr(x, 19) ^ (x >> 10);
+      return rotr(x, 17U) ^ rotr(x, 19U) ^ (x >> 10U);
     }
 
     auto transform() -> void
     {
-      std::uint32_t maj      = 0U;
-      std::uint32_t xorA     = 0U;
-      std::uint32_t ch       = 0U;
-      std::uint32_t xorE     = 0U;
-      std::uint32_t sum      = 0U;
-      std::uint32_t newA     = 0U;
-      std::uint32_t newE     = 0U;
+      std::uint32_t maj   = 0U;
+      std::uint32_t xor_a = 0U;
+      std::uint32_t ch    = 0U;
+      std::uint32_t xor_e = 0U;
+      std::uint32_t sum   = 0U;
+      std::uint32_t new_a = 0U;
+      std::uint32_t new_e = 0U;
 
-      std::uint32_t m[64U]    = {0U};
-      std::uint32_t state[8U] = {0U};;
+      std::array<std::uint32_t, 64> m     = {0U};
+      std::array<std::uint32_t, 8U> state = {0U};
 
       for(std::uint8_t i = 0U, j = 0U; i < 16U; ++i, j += 4U)
       {
@@ -137,33 +137,33 @@
 
       for(std::uint8_t i = 0U; i < 8U; ++i)
       {
-        state[i] = init_hash_val[i];
+        state[i] = m_init_hash_val[i];
       }
 
       for(std::uint8_t i = 0U; i < 64U; ++i)
       {
-        maj   = majority(state[0U], state[1U], state[2U]);
-        xorA  = (rotr(state[0U], 2U) ^ rotr(state[0U], 13U) ^ rotr(state[0U], 22U));
-        ch    = choose(state[4U], state[5U], state[6U]);
-        xorE  = rotr(state[4U], 6U) ^ rotr(state[4U], 11U) ^ rotr(state[4U], 25U);
-        sum   = (m[i] + hash_sha256::K[i] + state[7U] + ch + xorE);
+        maj    = majority(state[0U], state[1U], state[2U]);
+        xor_a  = (rotr(state[0U], 2U) ^ rotr(state[0U], 13U) ^ rotr(state[0U], 22U));
+        ch     = choose(state[4U], state[5U], state[6U]);
+        xor_e  = rotr(state[4U], 6U) ^ rotr(state[4U], 11U) ^ rotr(state[4U], 25U);
+        sum    = (m[i] + hash_sha256::K[i] + state[7U] + ch + xor_e);
 
-        newA  = (xorA + maj + sum);
-        newE  = (state[3U] + sum);
+        new_a  = (xor_a + maj + sum);
+        new_e  = (state[3U] + sum);
 
         state[7U] = state[6U];
         state[6U] = state[5U];
         state[5U] = state[4U];
-        state[4U] = newE;
+        state[4U] = new_e;
         state[3U] = state[2U];
         state[2U] = state[1U];
         state[1U] = state[0U];
-        state[0U] = newA;
+        state[0U] = new_a;
       }
 
       for(std::uint8_t i = 0U; i < 8U; ++i)
       {
-        init_hash_val[i] += state[i];
+        m_init_hash_val[i] += state[i];
       }
 
     }
@@ -173,7 +173,7 @@
       std::uint64_t i  = m_blocklen;
       std::uint8_t end = (m_blocklen < 56) ? 56 : 64;
 
-      m_data[i++] = 0x80U; // Append a bit 1
+      m_data[i++] = 0x80U;  // Append a bit 1
 
       while (i < end)
       {
@@ -208,7 +208,7 @@
       {
         for(std::uint8_t j = 0U; j < 8U; ++j)
         {
-          hash[i + (j * 4U)] = ((init_hash_val[j] >> (24U - i * 8U)) & 0X000000FFU);
+          hash[i + (j * 4U)] = ((m_init_hash_val[j] >> (24U - i * 8U)) & 0X000000FFU);
         }
       }
     }
