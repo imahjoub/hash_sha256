@@ -18,7 +18,6 @@ Various OS/compiler combinations are used including
 GCC/clang/MSVC.
 
 Code coverage uses GCC/gcov/lcov and has a
-quality-gate with comparison/baseline-check provided by third-party Codecov.
-[Codecov](https://app.codecov.io/gh/iaitelmahjoub/hash_sha256).
+quality-gate with comparison/baseline-check provided by third-party [Codecov](https://app.codecov.io/gh/iaitelmahjoub/hash_sha256).
 
 TBD Provide use linters and describe them.
