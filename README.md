@@ -9,6 +9,7 @@ hash_sha256
 
 SHA-256 is a patented cryptographic hash function that outputs a value that is 256 bits long.
 
+
 ## Characteristics of the SHA-256 Algorithm
 
   * Message Length: The length of the cleartext should be less than 264 bits. The size needs to be in the comparison area to keep the digest as random as possible.
@@ -21,6 +22,7 @@ SHA-256 is a patented cryptographic hash function that outputs a value that is 2
 ## Using the `hash_sha256`
 
 `hash_sha256` is a header-only c++ implementation of SHA-256
+
 
 * The following program shows a test example
 ```cpp
