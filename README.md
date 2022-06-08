@@ -30,13 +30,13 @@ using hash_output_type = std::array<std::uint8_t, 32U>;
 // create an object of hash_sha256
 hash_sha256 my_sha256;
 
-// message to be hash
+// original message
 const std::array<uint8_t, 3U> my_msg = { 'a', 'b', 'c'};
 
 // update the hash with given data
 my_sha256.update(my_msg.data(), my_msg.size());
 
-// get the hash result
+// final hash result
 hash_output_type digest = my_sha256.digest();
 ```
 
