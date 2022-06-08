@@ -6,7 +6,7 @@ auto main() -> int
 {
   hash_sha256 my_sha256;
 
-  const std::array<uint8_t, 3U> my_msg = { 'a', 'b', 'c'};
+  const std::array<std::uint8_t, 3U> my_msg = { 'a', 'b', 'c'};
 
   const hash_output_type my_hash =
   {
