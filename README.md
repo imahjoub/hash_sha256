@@ -1,4 +1,4 @@
-﻿hash_sha256
+﻿Hash_SHA256
 ==================
 
 [![Build Status](https://github.com/iaitelmahjoub/hash_sha256/actions/workflows/hash_sha256.yml/badge.svg)](https://github.com/iaitelmahjoub/hash_sha256/actions)
@@ -6,9 +6,10 @@
 [![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/iaitelmahjoub/hash_sha256)](https://github.com/iaitelmahjoub/hash_sha256)
 [![codecov](https://codecov.io/gh/iaitelmahjoub/hash_sha256/branch/main/graph/badge.svg?token=3LIK8E96FC)](https://codecov.io/gh/iaitelmahjoub/hash_sha256)
 
-# a header-only c++ hash_sha256 implementation 
 
-## This repository is work in progress.
+a header-only c++ sha256 implementation 
+
+### This repository is work in progress.
 
 ## Using the `hash_sha256`
 TBD :add description
@@ -20,6 +21,6 @@ GCC/clang/MSVC.
 
 Code coverage uses GCC/gcov/lcov and has a
 quality-gate with comparison/baseline-check provided by third-party Codecov.
-[Codecov](https://app.codecov.io/gh/iaitelmahjoub/pi_spigot).
+[Codecov](https://app.codecov.io/gh/iaitelmahjoub/hash_sha256).
 
 TBD Provide use linters and describe them.
