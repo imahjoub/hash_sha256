@@ -184,7 +184,7 @@
       }
 
       // Append to the padding the total message's length in bits and transform.
-      m_bitlen   += static_cast<std::uint8_t>(m_blocklen * 8U);
+      m_bitlen   += static_cast<std::uint64_t>(m_blocklen * 8U);
       m_data[63U] = static_cast<std::uint8_t>(m_bitlen >>  0U);
       m_data[62U] = static_cast<std::uint8_t>(m_bitlen >>  8U);
       m_data[61U] = static_cast<std::uint8_t>(m_bitlen >> 16U);
