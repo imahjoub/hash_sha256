@@ -46,7 +46,11 @@
     auto digest() -> hash_output_type
     {
       hash_output_type hash;
+
+      hash.fill(0U);
+
       pad();
+
       revert(hash.data());
 
       return hash;
