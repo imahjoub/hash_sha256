@@ -14,7 +14,7 @@
   {
   public:
     hash_sha256():
-      m_data    {0U}
+      m_data {0U}
       {
         m_init_hash_val[0U] = 0x6A09E667U;
         m_init_hash_val[1U] = 0xBB67AE85U;
@@ -85,7 +85,7 @@
 
     static auto rotr(std::uint32_t x, std::uint32_t n) -> std::uint32_t
     {
-      return (x >> n) | (x << (32 - n));
+      return (x >> n) | (x << (32U - n));
     }
 
     static auto choose(std::uint32_t e, std::uint32_t f, std::uint32_t g) -> std::uint32_t
