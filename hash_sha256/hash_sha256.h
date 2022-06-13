@@ -25,6 +25,12 @@
         m_init_hash_val[6U] = 0x1F83D9ABU;
         m_init_hash_val[7U] = 0x5BE0CD19U;
       }
+    
+    hash_sha256(const hash_sha256&) = delete;
+
+    hash_sha256(hash_sha256&&) = delete;
+
+    virtual ~hash_sha256() = default;    
 
     auto update(const std::uint8_t* data, std::size_t length) -> void
     {
