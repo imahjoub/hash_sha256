@@ -6,7 +6,6 @@
   #include <cstring>
   #include <iomanip>
   #include <sstream>
-  #include <string>
 
   using hash_output_type = std::array<std::uint8_t, 32U>;
 
