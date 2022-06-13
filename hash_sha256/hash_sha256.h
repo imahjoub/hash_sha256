@@ -31,6 +31,10 @@
 
     virtual ~hash_sha256() = default;    
 
+    auto operator=(const hash_sha256&) -> hash_sha256& = delete;
+
+    auto operator=(hash_sha256&&) -> hash_sha256& = delete;
+    
     auto update(const std::uint8_t* data, std::size_t length) -> void
     {
       for(std::size_t i = 0 ; i < length ; i++)
