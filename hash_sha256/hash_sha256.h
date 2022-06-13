@@ -6,7 +6,6 @@
   #include <cstring>
   #include <iomanip>
   #include <sstream>
-  #include <string>
 
   using hash_output_type = std::array<std::uint8_t, 32U>;
 
@@ -25,7 +24,17 @@
         m_init_hash_val[6U] = 0x1F83D9ABU;
         m_init_hash_val[7U] = 0x5BE0CD19U;
       }
+    
+    hash_sha256(const hash_sha256&) = delete;
 
+    hash_sha256(hash_sha256&&) = delete;
+
+    virtual ~hash_sha256() = default;    
+
+    auto operator=(const hash_sha256&) -> hash_sha256& = delete;
+
+    auto operator=(hash_sha256&&) -> hash_sha256& = delete;
+    
     auto update(const std::uint8_t* data, std::size_t length) -> void
     {
       for(std::size_t i = 0 ; i < length ; i++)
