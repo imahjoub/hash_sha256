@@ -31,6 +31,8 @@ auto main() -> int
 
   hash_output_type digest = my_sha256.digest();
 
+  my_sha256.~hash_sha256();
+
   const bool hash_is_ok = (digest == my_hash);
 
   std::cout << "hash_is_ok: " << std::boolalpha << hash_is_ok << std::endl;
