@@ -1,4 +1,4 @@
-name: hash_sha256_test
+name: build_test
 on:
   push:
     branches:
