@@ -29,7 +29,7 @@
 
     hash_sha256(hash_sha256&&) = delete;
 
-    virtual ~hash_sha256() = default;    
+    virtual ~hash_sha256() = default; // LCOV_EXCL_LINE
 
     auto operator=(const hash_sha256&) -> hash_sha256& = delete;
 
@@ -197,15 +197,15 @@
       }
 
       // Append to the padding the total message's length in bits and transform.
-      m_bitlen   += static_cast<std::uint64_t>(m_blocklen * 8U);
-      m_data[63U] = static_cast<std::uint8_t>(m_bitlen >>  0U);
-      m_data[62U] = static_cast<std::uint8_t>(m_bitlen >>  8U);
-      m_data[61U] = static_cast<std::uint8_t>(m_bitlen >> 16U);
-      m_data[60U] = static_cast<std::uint8_t>(m_bitlen >> 24U);
-      m_data[59U] = static_cast<std::uint8_t>(m_bitlen >> 32U);
-      m_data[58U] = static_cast<std::uint8_t>(m_bitlen >> 40U);
-      m_data[57U] = static_cast<std::uint8_t>(m_bitlen >> 48U);
-      m_data[56U] = static_cast<std::uint8_t>(m_bitlen >> 56U);
+      m_bitlen   += static_cast<std::uint64_t>(static_cast<std::uint32_t>(m_blocklen) * UINT8_C(8U));
+      m_data[63U] = static_cast<std::uint8_t> (static_cast<std::uint64_t>(m_bitlen)  >> UINT8_C(0U));
+      m_data[62U] = static_cast<std::uint8_t> (static_cast<std::uint64_t>(m_bitlen)  >> UINT8_C(8U));
+      m_data[61U] = static_cast<std::uint8_t> (static_cast<std::uint64_t>(m_bitlen)  >> UINT8_C(16U));
+      m_data[60U] = static_cast<std::uint8_t> (static_cast<std::uint64_t>(m_bitlen)  >> UINT8_C(24U));
+      m_data[59U] = static_cast<std::uint8_t> (static_cast<std::uint64_t>(m_bitlen)  >> UINT8_C(32U));
+      m_data[58U] = static_cast<std::uint8_t> (static_cast<std::uint64_t>(m_bitlen)  >> UINT8_C(40U));
+      m_data[57U] = static_cast<std::uint8_t> (static_cast<std::uint64_t>(m_bitlen)  >> UINT8_C(48U));
+      m_data[56U] = static_cast<std::uint8_t> (static_cast<std::uint64_t>(m_bitlen)  >> UINT8_C(56U));
 
       transform();
     }
@@ -218,7 +218,7 @@
       {
         for(std::uint8_t j = 0U; j < 8U; ++j)
         {
-          hash[i + (j * 4U)] = ((m_init_hash_val[j] >> (24U - i * 8U)) & 0X000000FFU); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+          hash[i + (j * 4U)] = static_cast<std::uint8_t>(static_cast<std::uint32_t>(m_init_hash_val[j]) >> (24U - (i * 8U))); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
         }
       }
     }
