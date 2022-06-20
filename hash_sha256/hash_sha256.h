@@ -218,7 +218,7 @@
       {
         for(std::uint8_t j = 0U; j < 8U; ++j)
         {
-          hash[i + (j * 4U)] = (static_cast<std::uint32_t>(m_init_hash_val[j]) >> (24U - (i * 8U))); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+          hash[i + (j * 4U)] = static_cast<std::uint8_t>(static_cast<std::uint32_t>(m_init_hash_val[j]) >> (24U - (i * 8U))); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
         }
       }
     }
