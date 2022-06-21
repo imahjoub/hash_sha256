@@ -55,9 +55,7 @@
 
     auto digest() -> hash_output_type
     {
-      hash_output_type hash;
-
-      hash.fill(0U);
+      hash_output_type hash = {0U};
 
       pad();
 
