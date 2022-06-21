@@ -181,8 +181,8 @@
 
     auto pad() -> void
     {
-      std::uint64_t i  = m_blocklen;
-      std::uint8_t end = (m_blocklen < 56U) ? 56U : 64U;
+            std::uint64_t i  = m_blocklen;
+      const std::uint8_t end = (m_blocklen < 56U) ? 56U : 64U;
 
       m_data[i++] = 0x80U;  // Append a bit 1
 
