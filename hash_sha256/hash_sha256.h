@@ -129,13 +129,16 @@
       std::array<std::uint32_t, 64> m     = {0U};
       std::array<std::uint32_t, 8U> state = {0U};
 
-      for(std::uint8_t i = 0U, j = 0U; i < 16U; ++i, j += 4U)
+      std::size_t j = 0U;
+
+      for(std::uint8_t i = 0U; i < 16U; ++i)
       {
         // Split data in 32 bit blocks for the 16 first words
         m[i] = static_cast<std::uint32_t>(   static_cast<std::uint32_t>(static_cast<std::uint32_t>(m_data[j + 0U]) << 24U)
                                            | static_cast<std::uint32_t>(static_cast<std::uint32_t>(m_data[j + 1U]) << 16U)
                                            | static_cast<std::uint32_t>(static_cast<std::uint32_t>(m_data[j + 2U]) <<  8U)
                                            | static_cast<std::uint32_t>(static_cast<std::uint32_t>(m_data[j + 3U]) <<  0U));
+        j += 4U;
       }
 
       for(std::uint8_t k = 16U; k < 64U; ++k)
