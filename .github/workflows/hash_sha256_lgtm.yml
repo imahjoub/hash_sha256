@@ -1,9 +1,0 @@
-extraction:
-  cpp:
-     after_prepare:
-     - echo This is a test command
-     configure:
-        command:
-     index:
-        build_command:
-        - echo this is a test command
