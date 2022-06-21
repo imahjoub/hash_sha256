@@ -1,6 +1,7 @@
 #ifndef HASH_SHA256_2022_06_02_H
   #define HASH_SHA256_2022_06_02_H
 
+  #include <algorithm>
   #include <array>
   #include <cstdint>
   #include <cstring>
@@ -60,7 +61,7 @@
 
       pad();
 
-      revert(hash.data());
+      convert(hash.data());
 
       return hash;
     }
@@ -180,8 +181,8 @@
 
     auto pad() -> void
     {
-      std::uint64_t i  = m_blocklen;
-      std::uint8_t end = (m_blocklen < 56) ? 56 : 64;
+            std::uint64_t i  = m_blocklen;
+      const std::uint8_t end = (m_blocklen < 56U) ? 56U : 64U;
 
       m_data[i++] = 0x80U;  // Append a bit 1
 
@@ -210,17 +211,24 @@
       transform();
     }
 
-    auto revert(std::uint8_t* hash) -> void
+    static auto u8from32(const std::uint32_t& src32, std::uint8_t* dst8) -> void
     {
-      // SHA uses big endian byte ordering
-      // Revert all bytes
-      for(std::uint8_t i = 0U; i < 4U; ++i)
-      {
-        for(std::uint8_t j = 0U; j < 8U; ++j)
+      dst8[0U] = static_cast<std::uint8_t>(src32 >> 24U); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+      dst8[1U] = static_cast<std::uint8_t>(src32 >> 16U); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+      dst8[2U] = static_cast<std::uint8_t>(src32 >>  8U); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+      dst8[3U] = static_cast<std::uint8_t>(src32 >>  0U); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+    }
+
+    auto convert(std::uint8_t* hash) -> void
+    {
+      std::size_t j = 0U;
+
+      std::for_each(std::begin(m_init_hash_val), std::end(m_init_hash_val),
+        [&hash, &j](auto &elem)
         {
-          hash[i + (j * 4U)] = static_cast<std::uint8_t>(static_cast<std::uint32_t>(m_init_hash_val[j]) >> (24U - (i * 8U))); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-        }
-      }
+          u8from32(elem, &hash[j + 0U]); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+          j += 4U;
+        });
     }
   };
 
