@@ -226,7 +226,7 @@
       std::for_each(std::begin(m_init_hash_val), std::end(m_init_hash_val),
         [&hash, &j](auto &elem)
         {
-          u8from32(elem, &hash[j + 0U]);
+          u8from32(elem, &hash[j + 0U]); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
           j += 4U;
         });
     }
