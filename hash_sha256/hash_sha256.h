@@ -213,10 +213,10 @@
 
     static auto u8from32(const std::uint32_t& src32, std::uint8_t* dst8) -> void
     {
-      dst8[0U] = static_cast<std::uint8_t>(src32 >> 24U);
-      dst8[1U] = static_cast<std::uint8_t>(src32 >> 16U);
-      dst8[2U] = static_cast<std::uint8_t>(src32 >>  8U);
-      dst8[3U] = static_cast<std::uint8_t>(src32 >>  0U);
+      dst8[0U] = static_cast<std::uint8_t>(src32 >> 24U); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+      dst8[1U] = static_cast<std::uint8_t>(src32 >> 16U); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+      dst8[2U] = static_cast<std::uint8_t>(src32 >>  8U); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+      dst8[3U] = static_cast<std::uint8_t>(src32 >>  0U); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
     }
 
     auto convert(std::uint8_t* hash) -> void
