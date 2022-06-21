@@ -211,6 +211,14 @@
       transform();
     }
 
+    static auto u8from32(const std::uint32_t& src32, std::uint8_t* dst8) -> void
+    {
+      dst8[0U] = static_cast<std::uint8_t>(src32 >> 24U);
+      dst8[1U] = static_cast<std::uint8_t>(src32 >> 16U);
+      dst8[2U] = static_cast<std::uint8_t>(src32 >>  8U);
+      dst8[3U] = static_cast<std::uint8_t>(src32 >>  0U);
+    }
+
     auto convert(std::uint8_t* hash) -> void
     {
       std::size_t j = 0U;
@@ -218,11 +226,8 @@
       std::for_each(std::begin(m_init_hash_val), std::end(m_init_hash_val),
         [&hash, &j](auto &elem)
         {
-          hash[j + 0U] = static_cast<std::uint8_t>((static_cast<std::uint32_t>(elem) & UINT32_C(0xFF000000)) >> UINT8_C(24));
-          hash[j + 1U] = static_cast<std::uint8_t>((static_cast<std::uint32_t>(elem) & UINT32_C(0x00FF0000)) >> UINT8_C(16));
-          hash[j + 2U] = static_cast<std::uint8_t>((static_cast<std::uint32_t>(elem) & UINT32_C(0x0000FF00)) >> UINT8_C( 8));
-          hash[j + 3U] = static_cast<std::uint8_t>((static_cast<std::uint32_t>(elem) & UINT32_C(0x000000FF)) >> UINT8_C( 0));
-          j +=4;
+          u8from32(elem, &hash[j + 0U]);
+          j += 4U;
         });
     }
   };
