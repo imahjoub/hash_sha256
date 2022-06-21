@@ -2,7 +2,7 @@ name: hash_sha256_sonar
 on:
   push:
     branches:
-      - master
+      - '**'
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
