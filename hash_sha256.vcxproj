@@ -85,7 +85,7 @@
     </BuildLog>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="hash_sha256_test.cpp" />
+    <ClCompile Include="hash_sha256.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="hash_sha256\hash_sha256.h" />
