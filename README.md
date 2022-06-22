@@ -1,6 +1,11 @@
 hash_sha256
 ==================
 
+<p align="center">
+    <a href="https://github.com/imahjoub/hash_sha256" alt="Activity">
+        <img src="https://img.shields.io/github/commit-activity/m/imahjoub/hash_sha256" /></a>
+</p>
+
 [![Build Status](https://github.com/imahjoub/hash_sha256/actions/workflows/hash_sha256.yml/badge.svg)](https://github.com/imahjoub/hash_sha256/actions)
 [![Boost Software License 1.0](https://img.shields.io/badge/license-BSL%201.0-blue.svg)](https://github.com/imahjoub/hash_sha256/blob/main/LICENSE_1_0.txt)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=imahjoub_hash_sha256&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=imahjoub_hash_sha256)
