@@ -1,12 +1,20 @@
 hash_sha256
 ==================
 
-[![Build Status](https://github.com/imahjoub/hash_sha256/actions/workflows/hash_sha256.yml/badge.svg)](https://github.com/imahjoub/hash_sha256/actions)
-[![Boost Software License 1.0](https://img.shields.io/badge/license-BSL%201.0-blue.svg)](https://github.com/imahjoub/hash_sha256/blob/main/LICENSE_1_0.txt)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=imahjoub_hash_sha256&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=imahjoub_hash_sha256)
-[![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/imahjoub/hash_sha256)](https://github.com/imahjoub/hash_sha256)
-[![codecov](https://codecov.io/gh/imahjoub/hash_sha256/branch/main/graph/badge.svg?token=3LIK8E96FC)](https://codecov.io/gh/imahjoub/hash_sha256)
-
+<p align="center">
+    <a href="https://github.com/imahjoub/hash_sha256/actions">
+        <img src="https://github.com/imahjoub/hash_sha256/actions/workflows/hash_sha256.yml/badge.svg" alt="Build Status"></a>
+    <a href="https://sonarcloud.io/summary/new_code?id=imahjoub_hash_sha256">
+        <img src="https://sonarcloud.io/api/project_badges/measure?project=imahjoub_hash_sha256&metric=alert_status" alt="Quality Gate Status"></a>
+    <a href="https://codecov.io/gh/imahjoub/hash_sha256">
+        <img src="https://codecov.io/gh/imahjoub/hash_sha256/branch/main/graph/badge.svg?token=3LIK8E96FC" alt="code coverage"></a>
+    <a href="https://github.com/imahjoub/hash_sha256" alt="GitHub code size in bytes">
+        <img src="https://img.shields.io/github/languages/code-size/imahjoub/hash_sha256" /></a>
+    <a href="https://github.com/imahjoub/hash_sha256/blob/main/LICENSE_1_0.txt">
+        <img src="https://img.shields.io/badge/license-BSL%201.0-blue.svg" alt="Boost Software License 1.0"></a>
+    <a href="https://github.com/imahjoub/hash_sha256" alt="Activity">
+        <img src="https://img.shields.io/github/commit-activity/m/imahjoub/hash_sha256" /></a>
+</p>
 
 SHA-256 is a patented cryptographic hash function that outputs a value that is 256 bits long.
 
