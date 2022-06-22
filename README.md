@@ -2,6 +2,8 @@ hash_sha256
 ==================
 
 <p align="center">
+    <a href="https://github.com/imahjoub/hash_sha256/actions">
+        <img src="https://github.com/imahjoub/hash_sha256/actions/workflows/hash_sha256.yml/badge.svg" alt="Build Status"></a>
     <a href="https://github.com/imahjoub/hash_sha256" alt="Activity">
         <img src="https://img.shields.io/github/commit-activity/m/imahjoub/hash_sha256" /></a>
 </p>
