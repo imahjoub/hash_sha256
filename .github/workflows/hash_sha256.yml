@@ -22,11 +22,11 @@ jobs:
       - name: gcc-clang-native
         run: |
           echo "gcc-clang-native"
-          echo "${{ matrix.compiler }} -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256_test.cpp -I. -o hash_sha256_test.exe"
-          ${{ matrix.compiler }} -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256_test.cpp -I. -o hash_sha256_test.exe
-          echo "ls ./hash_sha256_test.exe"
-          ls -la ./hash_sha256_test.exe
-          ./hash_sha256_test.exe
+          echo "${{ matrix.compiler }} -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256.cpp -I. -o hash_sha256.exe"
+          ${{ matrix.compiler }} -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256.cpp -I. -o hash_sha256.exe
+          echo "ls ./hash_sha256.exe"
+          ls -la ./hash_sha256.exe
+          ./hash_sha256.exe
   apple-gcc-clang-native:
     runs-on: macos-latest
     defaults:
@@ -44,11 +44,11 @@ jobs:
       - name: apple-gcc-clang-native
         run: |
           echo "apple-gcc-clang-native"
-          echo "${{ matrix.compiler }} -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256_test.cpp -I. -o hash_sha256_test.exe"
-          ${{ matrix.compiler }} -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256_test.cpp -I. -o hash_sha256_test.exe
-          echo "ls ./hash_sha256_test.exe"
-          ls -la ./hash_sha256_test.exe
-          ./hash_sha256_test.exe
+          echo "${{ matrix.compiler }} -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256.cpp -I. -o hash_sha256.exe"
+          ${{ matrix.compiler }} -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256.cpp -I. -o hash_sha256.exe
+          echo "ls ./hash_sha256.exe"
+          ls -la ./hash_sha256.exe
+          ./hash_sha256.exe
   msvc-release-x64:
     runs-on: windows-2022
     strategy:
@@ -87,4 +87,4 @@ jobs:
           echo "+++ print clang-tidy version"
           clang-tidy --version
           echo "+++ running clang-tidy"
-          clang-tidy -checks="*,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-llvm-header-guard,-cppcoreguidelines-pro-bounds-constant-array-index,-fuchsia-trailing-return,-readability-identifier-naming" hash_sha256_test.cpp -- -I.
+          clang-tidy -checks="*,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-llvm-header-guard,-cppcoreguidelines-pro-bounds-constant-array-index,-fuchsia-trailing-return,-readability-identifier-naming" hash_sha256.cpp -- -I.
