@@ -16,8 +16,6 @@ hash_sha256
         <img src="https://img.shields.io/github/commit-activity/m/imahjoub/hash_sha256" /></a>
 </p>
 
-[![rating][9]][9]
-
 SHA-256 is a patented cryptographic hash function that outputs a value that is 256 bits long.
 
 
