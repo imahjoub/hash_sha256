@@ -8,6 +8,8 @@ hash_sha256
         <img src="https://sonarcloud.io/api/project_badges/measure?project=imahjoub_hash_sha256&metric=alert_status" alt="Quality Gate Status"></a>
     <a href="https://codecov.io/gh/imahjoub/hash_sha256">
         <img src="https://codecov.io/gh/imahjoub/hash_sha256/branch/main/graph/badge.svg?token=3LIK8E96FC" alt="code coverage"></a>
+    <a href="https://github.com/imahjoub/hash_sha256/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc">
+        <img src="https://custom-icon-badges.herokuapp.com/github/issues-raw/imahjoub/hash_sha256?logo=github" alt="Issues" /></a>    
     <a href="https://github.com/imahjoub/hash_sha256" alt="GitHub code size in bytes">
         <img src="https://img.shields.io/github/languages/code-size/imahjoub/hash_sha256" /></a>
     <a href="https://github.com/imahjoub/hash_sha256/blob/main/LICENSE_1_0.txt">
