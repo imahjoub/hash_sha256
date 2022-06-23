@@ -29,9 +29,9 @@ auto main() -> int
 
   my_sha256.update(my_msg.data(), my_msg.size());
 
-  hash_output_type digest = my_sha256.digest();
+  hash_output_type hash_result = my_sha256.digest();
 
-  const bool hash_is_ok = (digest == my_hash);
+  const bool hash_is_ok = (hash_result == my_hash);
 
   std::cout << "hash_is_ok: " << std::boolalpha << hash_is_ok << std::endl;
 
