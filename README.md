@@ -8,8 +8,13 @@ hash_sha256
         <img src="https://sonarcloud.io/api/project_badges/measure?project=imahjoub_hash_sha256&metric=alert_status" alt="Quality Gate Status"></a>
     <a href="https://codecov.io/gh/imahjoub/hash_sha256">
         <img src="https://codecov.io/gh/imahjoub/hash_sha256/branch/main/graph/badge.svg?token=3LIK8E96FC" alt="code coverage"></a>
+
     <a href="https://github.com/imahjoub/hash_sha256" alt="GitHub code size in bytes">
         <img src="https://img.shields.io/github/languages/code-size/imahjoub/hash_sha256" /></a>
+
+    <a href="https://github.com/imahjoub/hash_sha256" alt="rating">
+        <img src="[https://img.shields.io/github/languages/code-size/imahjoub/hash_sha256](https://custom-icon-badges.herokuapp.com/chrome-web-store/rating/ogffaloegjglncjfehdfplabnoondfjo?logo=thumbsup&logoColor=white)" /></a>
+        
     <a href="https://github.com/imahjoub/hash_sha256/blob/main/LICENSE_1_0.txt">
         <img src="https://img.shields.io/badge/license-BSL%201.0-blue.svg" alt="Boost Software License 1.0"></a>
     <a href="https://github.com/imahjoub/hash_sha256" alt="Activity">
