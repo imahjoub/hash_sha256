@@ -4,6 +4,8 @@ hash_sha256
 <p align="center">
     <a href="https://github.com/imahjoub/hash_sha256/actions">
         <img src="https://github.com/imahjoub/hash_sha256/actions/workflows/hash_sha256.yml/badge.svg" alt="Build Status"></a>
+    <a href="https://github.com/imahjoub/hash_sha256/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc">
+        <img src="https://custom-icon-badges.herokuapp.com/github/issues-raw/imahjoub/hash_sha256?logo=github" alt="Issues" /></a>    
     <a href="https://sonarcloud.io/summary/new_code?id=imahjoub_hash_sha256">
         <img src="https://sonarcloud.io/api/project_badges/measure?project=imahjoub_hash_sha256&metric=alert_status" alt="Quality Gate Status"></a>
     <a href="https://codecov.io/gh/imahjoub/hash_sha256">
