@@ -50,7 +50,7 @@ const std::array<std::uint8_t, 3U> my_msg = { 'a', 'b', 'c'};
 my_sha256.update(my_msg.data(), my_msg.size());
 
 // final hash result
-hash_output_type digest = my_sha256.digest();
+hash_output_type hash_result = my_sha256.digest();
 ```
 
 ## Testing, continuous integration and quality
