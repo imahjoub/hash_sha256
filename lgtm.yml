@@ -8,26 +8,28 @@
 path_classifiers:
   test:
     - "*hash_sha256.cpp"
-  docs:
-    - generate_javadoc.py
 queries:
-  - exclude: cpp/use-of-goto
+  - include:
+      tags:
+        - "security"
+        - "correctness"
+  - include:
+      severity: "error"
+  - include:
+      severity: "warning"
 extraction:
   cpp:
-    prepare:    # Customizable step used by all languages.
+    prepare:                                                              # Customizable step used by all languages.
       packages:
         - g++-6
-    after_prepare:    # Customizable step used by all languages.
-      - export GNU_MAKE=make
+    after_prepare:                                                        # Customizable step used by all languages.
       - export GIT=true
-    configure:    # Customizable step used only by C/C++ extraction.
+    configure:                                                            # Customizable step used only by C/C++ extraction.
       command:
-    before_index:    # Customizable step used by all languages.
+    before_index:                                                         # Customizable step used by all languages.
       - export BOOST_DIR=$LGTM_SRC/boost
       - export GTEST_DIR=$LGTM_SRC/googletest
-      - export HUNSPELL_DIR=$LGTM_SRC/hunspell
-      - export CRYPTOPP_DIR=$LGTM_SRC/cryptopp
-    index:    # Customizable step used by all languages.
+    index:                                                                # Customizable step used by all languages.
       build_command:
         - echo print gccc version
         - g++ --version
