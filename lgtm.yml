@@ -29,4 +29,6 @@ extraction:
       - export CRYPTOPP_DIR=$LGTM_SRC/cryptopp
     index:    # Customizable step used by all languages.
       build_command:
+        - echo print gccc version
+        - g++ --version
         - g++ -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=c++2a hash_sha256.cpp -I. -o hash_sha256.exe
