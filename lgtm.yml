@@ -21,7 +21,7 @@ extraction:
   cpp:
     prepare:                                                              # Customizable step used by all languages.
       packages:
-        - g++-6
+        - g++-11
     after_prepare:                                                        # Customizable step used by all languages.
       - export GIT=true
     configure:                                                            # Customizable step used only by C/C++ extraction.
