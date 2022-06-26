@@ -44,7 +44,7 @@
     
     auto update(const std::uint8_t* data, std::size_t length) -> void
     {
-      for(std::size_t i = 0 ; i < length ; i++)
+      for(std::size_t i = 0 ; i < length ; ++i)
       {
         m_data[m_blocklen++] = data[i]; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 
@@ -53,7 +53,7 @@
           transform();
 
           // End of the block
-          m_bitlen += 512;
+          m_bitlen  += 512U;
           m_blocklen = 0U;
         }
       }
