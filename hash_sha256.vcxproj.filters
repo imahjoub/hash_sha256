@@ -19,4 +19,20 @@
       <Filter>Source Files\hash_sha256</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include=".clang-tidy">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="lgtm.yml">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="sonar-project.properties">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="LICENSE_1_0.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

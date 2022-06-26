@@ -90,6 +90,14 @@
   <ItemGroup>
     <ClInclude Include="hash_sha256\hash_sha256.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include=".clang-tidy" />
+    <None Include="lgtm.yml" />
+    <None Include="sonar-project.properties" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="LICENSE_1_0.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
