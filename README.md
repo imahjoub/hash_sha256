@@ -1,6 +1,5 @@
 hash_sha256
 ==================
-
 <p align="center">
     <a href="https://github.com/imahjoub/hash_sha256/actions">
         <img src="https://github.com/imahjoub/hash_sha256/actions/workflows/hash_sha256.yml/badge.svg" alt="Build Status"></a>
