@@ -5,7 +5,7 @@
 #  or copy at http://www.boost.org/LICENSE_1_0.txt)   
 # -----------------------------------------------------
 
-name: hash_sha256_codecov
+name: hash_sha256_codacy_coverage_reporter
 
 on: ["push"]
 
