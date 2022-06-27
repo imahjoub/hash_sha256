@@ -8,6 +8,8 @@ hash_sha256
         <img src="https://custom-icon-badges.herokuapp.com/github/issues-raw/imahjoub/hash_sha256?logo=github" alt="Issues" /></a>
     <a href="https://lgtm.com/projects/g/imahjoub/hash_sha256/context:cpp">
         <img src="https://img.shields.io/lgtm/grade/cpp/g/imahjoub/hash_sha256.svg?logo=lgtm&logoWidth=18" alt="Language grade: C/C++" /></a>
+    <a href="https://app.codacy.com/gh/imahjoub/hash_sha256/dashboard">
+        <img src="https://app.codacy.com/project/badge/Grade/913aec26f468405ab0ff9a29beb6d400" alt="Codacy Badge" /></a>
     <a href="https://lgtm.com/projects/g/imahjoub/hash_sha256/alerts/?mode=list">
         <img src="https://img.shields.io/lgtm/alerts/g/imahjoub/hash_sha256.svg?logo=lgtm&logoWidth=18" alt="Total alerts" /></a>
     <a href="https://sonarcloud.io/summary/new_code?id=imahjoub_hash_sha256">
