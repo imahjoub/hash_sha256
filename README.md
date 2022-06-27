@@ -20,6 +20,8 @@ hash_sha256
         <img src="https://img.shields.io/badge/license-BSL%201.0-blue.svg" alt="Boost Software License 1.0"></a>
     <a href="https://github.com/imahjoub/hash_sha256" alt="Activity">
         <img src="https://img.shields.io/github/commit-activity/y/imahjoub/hash_sha256" /></a>
+    <a href="https://sonarcloud.io/summary/new_code?id=ckormanyos_wide-integer">
+        <img src="(https://sonarcloud.io/api/project_badges/measure?project=ckormanyos_wide-integer&metric=alert_status" alt="Quality Gate Status"></a>
 </p>
 
 SHA-256 is a patented cryptographic hash function that outputs a value that is 256 bits long.
