@@ -1,0 +1,22 @@
+# -----------------------------------------------------
+#  Copyright Iliass Mahjoub 2022.                     
+#  Distributed under the Boost Software License,      
+#  Version 1.0. (See accompanying file LICENSE_1_0.txt
+#  or copy at http://www.boost.org/LICENSE_1_0.txt)   
+# -----------------------------------------------------
+
+name: hash_sha256_codecov
+
+on: ["push"]
+
+jobs:
+  hash_sha256-codacy-coverage-reporter:
+    runs-on: ubuntu-22.04
+    name: codacy-coverage-reporter
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run codacy-coverage-reporter
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: cobertura.xml
