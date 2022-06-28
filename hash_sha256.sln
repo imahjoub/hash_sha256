@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{4C73F908-5094-43CF-9428-969D2C1E52B5}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\hash_sha256.yml = .github\workflows\hash_sha256.yml
+		.github\workflows\hash_sha256_codacy_coverage_reporter.yml = .github\workflows\hash_sha256_codacy_coverage_reporter.yml
 		.github\workflows\hash_sha256_codecov.yml = .github\workflows\hash_sha256_codecov.yml
 		.github\workflows\hash_sha256_sonar.yml = .github\workflows\hash_sha256_sonar.yml
 	EndProjectSection
