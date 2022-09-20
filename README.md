@@ -23,7 +23,7 @@ hash_sha256
         <img src="https://img.shields.io/github/commit-activity/y/imahjoub/hash_sha256" /></a>
 </p>
 
-SHA-256 is a patented cryptographic hash function that outputs a value that is 256 bits long.
+SHA-256 is an unkeyed cryptographic hashing function that takes an input of variable length and produces a 256-bit long hash output
 
 
 ## Characteristics of the SHA-256 Algorithm
