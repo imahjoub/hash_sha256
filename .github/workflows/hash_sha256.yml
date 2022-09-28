@@ -96,7 +96,7 @@ jobs:
           echo "+++ running clang-tidy"
           clang-tidy -checks="*,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-llvm-header-guard,-cppcoreguidelines-pro-bounds-constant-array-index,-fuchsia-trailing-return,-readability-identifier-naming" hash_sha256.cpp -- -I.
   stm32f429-qemu:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     defaults:
       run:
         shell: bash
@@ -130,4 +130,4 @@ jobs:
           qemu_result=$?
           echo "qemu_result" "$qemu_result"
           echo "qemu_result" "$qemu_result" | grep 'qemu_result 0'
-        working-directory: ./ref_app/
+        working-directory: .
