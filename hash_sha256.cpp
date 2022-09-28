@@ -7,9 +7,11 @@
 //                                                               //
 ///////////////////////////////////////////////////////////////////
 
-#include <hash_sha256/hash_sha256.h>
-
+#ifdef STD_HASH256_IOSTREAM
 #include <iostream>
+#endif
+
+#include <hash_sha256/hash_sha256.h>
 
 auto main() -> int
 {
@@ -42,7 +44,9 @@ auto main() -> int
 
   const bool hash_is_ok = (hash_result == my_hash);
 
+  #ifdef STD_HASH256_IOSTREAM
   std::cout << "hash_is_ok: " << std::boolalpha << hash_is_ok << std::endl;
+  #endif
 
   return hash_is_ok ? 0 : -1;
 }

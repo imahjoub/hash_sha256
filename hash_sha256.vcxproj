@@ -58,6 +58,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>STD_HASH256_IOSTREAM</PreprocessorDefinitions>
     </ClCompile>
     <BuildLog>
       <Path>$(OutDir)$(MSBuildProjectName).log</Path>
@@ -74,6 +75,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>STD_HASH256_IOSTREAM</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
