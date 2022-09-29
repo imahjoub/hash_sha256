@@ -62,7 +62,7 @@ class qemu_emulator:
 
     # Set gdb Bp
     def set_gdb_break_point(self):
-        my_bp = gdb.Breakpoint('hash_sha256_gdb_result')
+        my_bp = gdb.Breakpoint('hash_sha256_get_gdb_result')
         return my_bp
 
     # Delete gdb Bp
@@ -71,7 +71,7 @@ class qemu_emulator:
 
     # Get gdb result
     def get_gdb_result(self):
-       my_result = gdb.parse_and_eval("hash_sha256_gdb_result")
+       my_result = gdb.parse_and_eval("hash_sha256_get_gdb_result")
        return my_result
 
     # Convert from gdb type to hex

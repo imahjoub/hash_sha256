@@ -13,12 +13,7 @@
 
 #include <hash_sha256/hash_sha256.h>
 
-extern "C"
-{
-  volatile std::uint32_t hash_sha256_gdb_result;
-}
-
-auto main() -> int
+auto hash_sha256_test() -> bool
 {
   hash_sha256 my_sha256;
 
@@ -47,17 +42,56 @@ auto main() -> int
 
   hash_output_type hash_result = my_sha256.digest();
 
-  const bool hash_is_ok = (hash_result == my_hash);
+  return (hash_result == my_hash);
+}
 
-  #ifdef STD_HASH256_IOSTREAM
-    std::cout << "hash_is_ok: " << std::boolalpha << hash_is_ok << std::endl;
-  #else
+extern "C"
+{
+  volatile std::uint32_t hash_sha256_gdb_result;
+}
+
+extern "C"
+{
+  extern volatile std::uint32_t hash_sha256_gdb_result;
+
+  auto hash_sha256_get_hash_result(void) -> bool;
+  auto hash_sha256_get_gdb_result(void)  -> bool;
+
+  auto hash_sha256_get_hash_result(void) -> bool
+  {
+    const bool result_is_ok = hash_sha256_test();
+
     hash_sha256_gdb_result =
       static_cast<std::uint32_t>
       (
-        hash_is_ok ? UINT32_C(0xF00DCAFE) : UINT32_C(0xFFFFFFFF)
+        result_is_ok ? UINT32_C(0xF00DCAFE) : UINT32_C(0xFFFFFFFF)
       );
+
+    return result_is_ok;
+  }
+
+  auto hash_sha256_get_gdb_result(void) -> bool
+  {
+    volatile auto result_is_ok =
+      (hash_sha256_gdb_result == UINT32_C(0xF00DCAFE));
+
+    return result_is_ok;
+  }
+}
+
+auto main() -> int
+{
+
+  #ifdef STD_HASH256_IOSTREAM
+  const bool hash_is_ok = hash_sha256_test();
+
+  std::cout << "hash_is_ok: " << std::boolalpha << hash_is_ok << std::endl;
   #endif // HASH_SHA256_GDB
+
+  #ifdef STD_HASH256_GDB
+  const bool hash_is_ok = (   hash_sha256_get_hash_result()
+                           && hash_sha256_get_gdb_result())
+  #endif // STD_HASH256_GDB
 
   return hash_is_ok ? 0 : -1;
 }
