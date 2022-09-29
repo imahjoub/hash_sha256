@@ -48,11 +48,6 @@ auto hash_sha256_test() -> bool
 extern "C"
 {
   volatile std::uint32_t hash_sha256_gdb_result;
-}
-
-extern "C"
-{
-  extern volatile std::uint32_t hash_sha256_gdb_result;
 
   auto hash_sha256_get_hash_result(void) -> bool;
   auto hash_sha256_get_gdb_result(void)  -> bool;
