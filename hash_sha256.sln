@@ -19,6 +19,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_doc", "_doc", "{C772081E-6
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "qemu_build", "qemu_build", "{509CF8A0-D7D2-4EC0-9908-8A5DFF5529CB}"
+	ProjectSection(SolutionItems) = preProject
+		qemu_build\stm32f429.ld = qemu_build\stm32f429.ld
+		qemu_build\stm32f429_startup.cpp = qemu_build\stm32f429_startup.cpp
+		qemu_build\test_hash_sha256_emulator.py = qemu_build\test_hash_sha256_emulator.py
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

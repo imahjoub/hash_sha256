@@ -20,9 +20,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include=".clang-tidy">
-      <Filter>Source Files</Filter>
-    </None>
     <None Include="lgtm.yml">
       <Filter>Source Files</Filter>
     </None>
