@@ -13,8 +13,6 @@
 
 #include <hash_sha256/hash_sha256.h>
 
-constexpr auto hash_sha256_gdb_var = static_cast<std::uint32_t>(UINT32_C(0xF00DCAFE));
-
 extern "C"
 {
   volatile std::uint32_t hash_sha256_gdb_result;
