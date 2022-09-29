@@ -13,6 +13,13 @@
 
 #include <hash_sha256/hash_sha256.h>
 
+constexpr auto hash_sha256_gdb_var = static_cast<std::uint32_t>(UINT32_C(0xF00DCAFE));
+
+extern "C"
+{
+  volatile std::uint32_t hash_sha256_gdb_result;
+}
+
 auto main() -> int
 {
   hash_sha256 my_sha256;
@@ -45,8 +52,14 @@ auto main() -> int
   const bool hash_is_ok = (hash_result == my_hash);
 
   #ifdef STD_HASH256_IOSTREAM
-  std::cout << "hash_is_ok: " << std::boolalpha << hash_is_ok << std::endl;
-  #endif
+    std::cout << "hash_is_ok: " << std::boolalpha << hash_is_ok << std::endl;
+  #else
+    hash_sha256_gdb_result =
+      static_cast<std::uint32_t>
+      (
+        hash_is_ok ? UINT32_C(0xF00DCAFE) : UINT32_C(0xFFFFFFFF)
+      );
+  #endif // HASH_SHA256_GDB
 
   return hash_is_ok ? 0 : -1;
 }
