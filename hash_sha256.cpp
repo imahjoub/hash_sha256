@@ -81,16 +81,15 @@ extern "C"
 
 auto main() -> int
 {
+  bool hash_is_ok = false;
+  hash_is_ok      = hash_sha256_test();
 
   #ifdef STD_HASH256_IOSTREAM
-  const bool hash_is_ok = hash_sha256_test();
-
   std::cout << "hash_is_ok: " << std::boolalpha << hash_is_ok << std::endl;
   #endif // HASH_SHA256_GDB
 
   #ifdef STD_HASH256_GDB
-  const bool hash_is_ok = (   hash_sha256_get_hash_result()
-                           && hash_sha256_get_gdb_result())
+  hash_is_ok = hash_sha256_get_gdb_result();
   #endif // STD_HASH256_GDB
 
   return hash_is_ok ? 0 : -1;
