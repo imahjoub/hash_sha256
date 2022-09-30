@@ -31,7 +31,7 @@ jobs:
       - name: gnumake-gcc-gcov-native
         run: |
           echo "build and run gcov/lcov/genhtml"
-          g++ -x c++ -c -mtune=native -march=native -O2 -Wall -Wextra -Wconversion -Wsign-conversion -std=c++17 -fno-inline-functions -fprofile-arcs -ftest-coverage hash_sha256.cpp -I. -o hash_sha256.o
+          g++ -x c++ -c -mtune=native -march=native -O2 -Wall -Wextra -Wconversion -Wsign-conversion -std=c++17 -fno-inline-functions -fprofile-arcs -ftest-coverage hash_sha256.cpp -DSTD_HASH256_GDB -I. -o hash_sha256.o
           g++ -mtune=native -march=native -O2 -Wall -Wextra -Wconversion -Wsign-conversion -std=c++17 -fno-inline-functions -fprofile-arcs -ftest-coverage hash_sha256.o -o hash_sha256.exe
           ./hash_sha256.exe
           gcov --object-directory . --demangled-names ./hash_sha256.cpp
