@@ -58,6 +58,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>STD_HASH256_IOSTREAM</PreprocessorDefinitions>
     </ClCompile>
     <BuildLog>
       <Path>$(OutDir)$(MSBuildProjectName).log</Path>
@@ -74,6 +75,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>STD_HASH256_IOSTREAM</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -91,7 +93,6 @@
     <ClInclude Include="hash_sha256\hash_sha256.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include=".clang-tidy" />
     <None Include=".codacy.yml" />
     <None Include="lgtm.yml" />
     <None Include="sonar-project.properties" />
