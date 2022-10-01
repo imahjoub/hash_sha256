@@ -153,10 +153,7 @@
         m[k] = sig1(m[k - 2U]) + m[k - 7U] + sig0(m[k - 15U]) + m[k - 16U];
       }
 
-      for(std::uint8_t i = 0U; i < 8U; ++i)
-      {
-        state[i] = m_init_hash_val[i]; 
-      }
+      std::copy(m_init_hash_val.begin(), m_init_hash_val.end(), state.begin());
 
       for(std::uint8_t i = 0U; i < 64U; ++i)
       {
@@ -193,10 +190,13 @@
 
       m_data[i++] = 0x80U;  // Append a bit 1
 
-      while (i < end)
-      {
-        m_data[i++] = 0x00U; // Pad with zeros
-      }
+      //while (i < end)
+      //{
+      //  m_data[i++] = 0x00U; // Pad with zeros
+      //}
+
+      std::fill((m_data.begin() + i), (m_data.begin() + end), 0U);
+
 
       if(m_blocklen >= 56U)
       {
