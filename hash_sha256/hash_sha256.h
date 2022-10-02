@@ -12,6 +12,7 @@
 
   #include <algorithm>
   #include <array>
+  #include <cstdint>
 
   using hash_output_type = std::array<std::uint8_t, 32U>;
 
@@ -131,7 +132,7 @@
 
     auto transform() -> void
     {
-      std::uint32_t sum   = 0U;
+      std::uint32_t sum  = 0U;
       std::uint32_t tmp1 = 0U;
       std::uint32_t tmp2 = 0U;
 
