@@ -12,7 +12,6 @@
 
   #include <algorithm>
   #include <array>
-  #include <cstdint>
 
   using hash_output_type = std::array<std::uint8_t, 32U>;
 
@@ -22,25 +21,22 @@
     hash_sha256():
       m_data {0U}
       {
-        m_init_hash_val[0U] = 0x6A09E667U;
-        m_init_hash_val[1U] = 0xBB67AE85U;
-        m_init_hash_val[2U] = 0x3C6EF372U;
-        m_init_hash_val[3U] = 0xA54FF53AU;
-        m_init_hash_val[4U] = 0x510E527FU;
-        m_init_hash_val[5U] = 0x9B05688CU;
-        m_init_hash_val[6U] = 0x1F83D9ABU;
-        m_init_hash_val[7U] = 0x5BE0CD19U;
+        m_init_hash_val[0U] = UINT32_C(0x6A09E667);
+        m_init_hash_val[1U] = UINT32_C(0xBB67AE85);
+        m_init_hash_val[2U] = UINT32_C(0x3C6EF372);
+        m_init_hash_val[3U] = UINT32_C(0xA54FF53A);
+        m_init_hash_val[4U] = UINT32_C(0x510E527F);
+        m_init_hash_val[5U] = UINT32_C(0x9B05688C);
+        m_init_hash_val[6U] = UINT32_C(0x1F83D9AB);
+        m_init_hash_val[7U] = UINT32_C(0x5BE0CD19);
       }
     
     hash_sha256(const hash_sha256&) = delete;
-
-    hash_sha256(hash_sha256&&) = delete;
-
-    virtual ~hash_sha256() = default; // LCOV_EXCL_LINE
+    hash_sha256(hash_sha256&&)      = delete;
+    virtual ~hash_sha256()          = default; // LCOV_EXCL_LINE
 
     auto operator=(const hash_sha256&) -> hash_sha256& = delete;
-
-    auto operator=(hash_sha256&&) -> hash_sha256& = delete;
+    auto operator=(hash_sha256&&) -> hash_sha256&      = delete;
     
     auto update(const std::uint8_t* data, std::size_t length) -> void
     {
@@ -97,40 +93,47 @@
       0x90BEFFFAU, 0xA4506CEBU, 0xBEF9A3F7U, 0xC67178F2U
     };
 
+    // circular right shift ROTR^n(x)
     static auto rotr(std::uint32_t x, std::uint32_t n) -> std::uint32_t
     {
-      return (x >> n) | (x << (32U - n));
+      return (static_cast<std::uint32_t>(x >> n) | static_cast<std::uint32_t>(x << (32U - n)));
     }
 
-    static auto choose(std::uint32_t e, std::uint32_t f, std::uint32_t g) -> std::uint32_t
+    static auto sha_ch(std::uint32_t e, std::uint32_t f, std::uint32_t g) -> std::uint32_t
     {
-      return (e & f) ^ (~e & g);
+      return (static_cast<std::uint32_t>(e & f) ^ static_cast<std::uint32_t>(~e & g));
     }
 
-    static auto majority(std::uint32_t a, std::uint32_t b, std::uint32_t c) -> std::uint32_t
+    static auto sha_maj(std::uint32_t a, std::uint32_t b, std::uint32_t c) -> std::uint32_t
     {
-      return (a & (b | c)) | (b & c);
+      return (static_cast<std::uint32_t>(a & (b | c)) | static_cast<std::uint32_t>(b & c));
     }
 
-    static auto sig0(std::uint32_t x) -> std::uint32_t
+    static auto bsig0(std::uint32_t x) -> std::uint32_t
     {
-      return rotr(x, 7U) ^ rotr(x, 18U) ^ (x >> 3U);
+      return (rotr(x, 2U) ^ rotr(x, 13U) ^ rotr(x, 22U));
     }
 
-    static auto sig1(std::uint32_t x) -> std::uint32_t
+    static auto bsig1(std::uint32_t x) -> std::uint32_t
     {
-      return rotr(x, 17U) ^ rotr(x, 19U) ^ (x >> 10U);
+      return (rotr(x, 6U) ^ rotr(x, 11U) ^ rotr(x, 25U));
+    }
+
+    static auto ssig0(std::uint32_t x) -> std::uint32_t
+    {
+      return (rotr(x, 7U) ^ rotr(x, 18U) ^ (x >> 3U));
+    }
+
+    static auto ssig1(std::uint32_t x) -> std::uint32_t
+    {
+      return (rotr(x, 17U) ^ rotr(x, 19U) ^ (x >> 10U));
     }
 
     auto transform() -> void
     {
-      std::uint32_t maj   = 0U;
-      std::uint32_t xor_a = 0U;
-      std::uint32_t ch    = 0U;
-      std::uint32_t xor_e = 0U;
       std::uint32_t sum   = 0U;
-      std::uint32_t new_a = 0U;
-      std::uint32_t new_e = 0U;
+      std::uint32_t tmp1 = 0U;
+      std::uint32_t tmp2 = 0U;
 
       std::array<std::uint32_t, 64> m     = {0U};
       std::array<std::uint32_t, 8U> state = {0U};
@@ -150,30 +153,34 @@
       for(std::uint8_t k = 16U; k < 64U; ++k)
       {
         // Remaining 48 blocks
-        m[k] = sig1(m[k - 2U]) + m[k - 7U] + sig0(m[k - 15U]) + m[k - 16U];
+        m[k] = ssig1(m[k - 2U]) + m[k - 7U] + ssig0(m[k - 15U]) + m[k - 16U];
       }
 
       std::copy(m_init_hash_val.begin(), m_init_hash_val.end(), state.begin());
 
       for(std::uint8_t i = 0U; i < 64U; ++i)
       {
-        maj    = majority(state[0U], state[1U], state[2U]);
-        xor_a  = (rotr(state[0U], 2U) ^ rotr(state[0U], 13U) ^ rotr(state[0U], 22U));
-        ch     = choose(state[4U], state[5U], state[6U]);
-        xor_e  = rotr(state[4U], 6U) ^ rotr(state[4U], 11U) ^ rotr(state[4U], 25U);
-        sum    = (m[i] + hash_sha256::K[i] + state[7U] + ch + xor_e);
+        sum   = (  static_cast<std::uint32_t>(m[i])
+                 + static_cast<std::uint32_t>(hash_sha256::K[i])
+                 + static_cast<std::uint32_t>(state[7U])
+                 + static_cast<std::uint32_t>(sha_ch(state[4U], state[5U], state[6U]))
+                 + static_cast<std::uint32_t>(bsig1(state[4U])));
 
-        new_a  = (xor_a + maj + sum);
-        new_e  = (state[3U] + sum);
+        tmp1  = (  static_cast<std::uint32_t>(bsig0(state[0U]))
+                 + static_cast<std::uint32_t>(sha_maj(state[0U], state[1U], state[2U]))
+                 + static_cast<std::uint32_t>(sum));
+
+        tmp2  = (  static_cast<std::uint32_t>(state[3U])
+                 + static_cast<std::uint32_t>(sum));
 
         state[7U] = state[6U];
         state[6U] = state[5U];
         state[5U] = state[4U];
-        state[4U] = new_e;
+        state[4U] = tmp2;
         state[3U] = state[2U];
         state[2U] = state[1U];
         state[1U] = state[0U];
-        state[0U] = new_a;
+        state[0U] = tmp1;
       }
 
       for(std::uint8_t i = 0U; i < 8U; ++i)
@@ -189,11 +196,6 @@
       const std::uint8_t end = (m_blocklen < 56U) ? 56U : 64U;
 
       m_data[i++] = 0x80U;  // Append a bit 1
-
-      //while (i < end)
-      //{
-      //  m_data[i++] = 0x00U; // Pad with zeros
-      //}
 
       std::fill((m_data.begin() + i), (m_data.begin() + end), 0U);
 
