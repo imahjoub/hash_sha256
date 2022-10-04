@@ -9,9 +9,8 @@ name: hash_sha256_codeql
 on:
   push:
     branches:
-      - master
+      - '**'
   pull_request:
-    types: [opened, synchronize, reopened]
 jobs:
   analyze:
     name: Analyze

@@ -13,7 +13,7 @@ on:
   pull_request:
 jobs:
   gcc-clang-native:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
@@ -73,7 +73,7 @@ jobs:
           dir %cd%\Out\Bin\Release\hash_sha256.exe
           %cd%\Out\Bin\Release\hash_sha256.exe
   gnumake-clang-tidy-12-native:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
@@ -96,7 +96,7 @@ jobs:
           echo "+++ running clang-tidy"
           clang-tidy -checks="*,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-llvm-header-guard,-cppcoreguidelines-pro-bounds-constant-array-index,-fuchsia-trailing-return,-readability-identifier-naming" hash_sha256.cpp -- -I.
   stm32f429-qemu:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
