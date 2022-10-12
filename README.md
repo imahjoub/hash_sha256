@@ -54,7 +54,7 @@ A simple and C++ header-only implementation of SHA-256. This implementation uses
   // Update the hash with given data
     hash1.sha256_update(msg1.data(), msg1.size());
 
-  // final hash result
+  // Final hash result
   sha256_output_type hash_result1 = hash1.sha256_final();
   ```
 
