@@ -7,7 +7,7 @@
 
 path_classifiers:
   test:
-    - "*hash_sha256.cpp"
+    - "*hash_sha256_test.cpp"
 queries:
   - include:
       tags:
@@ -33,4 +33,4 @@ extraction:
       build_command:
         - echo print gcc version
         - g++ --version
-        - g++ -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=c++2a hash_sha256.cpp -I. -o hash_sha256.exe
+        - g++ -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=c++2a hash_sha256_test.cpp -I. -o hash_sha256.exe
