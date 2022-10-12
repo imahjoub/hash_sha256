@@ -25,7 +25,6 @@ hash_sha256
 
 SHA-256 is an unkeyed cryptographic hashing function that takes an input of variable length and produces a 256-bit long hash output
 
-
 ## Characteristics of the SHA-256 Algorithm
 
   * Message Length: The length of the cleartext should be less than 264 bits. The size needs to be in the comparison area to keep the digest as random as possible.
@@ -36,6 +35,8 @@ SHA-256 is an unkeyed cryptographic hashing function that takes an input of vari
 
 
 ## Using the `hash_sha256`
+
+This implementation uses little endian byte order.
 
 `hash_sha256` is a header-only c++ implementation of SHA-256
 
