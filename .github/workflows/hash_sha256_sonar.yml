@@ -45,7 +45,7 @@ jobs:
           echo "$HOME/.sonar/build-wrapper-linux-x86" >> $GITHUB_PATH
       - name: Run build-wrapper
         run: |
-          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} g++ -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=c++2a hash_sha256.cpp -I. -o hash_sha256.exe
+          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} g++ -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=c++2a hash_sha256_test.cpp -I. -o hash_sha256_test.exe
       - name: Run sonar-scanner
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
