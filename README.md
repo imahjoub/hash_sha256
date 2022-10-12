@@ -24,7 +24,7 @@ hash_sha256
 </p>
 
 
-A simple and C++ header-only implementation of SHA-256. This implementation uses little endian byte order.
+A simple implementation of SHA-256 in C++ (header-only). This implementation uses little endian byte order.
 
 ## Characteristics of the SHA-256 Algorithm
 
