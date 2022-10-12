@@ -29,8 +29,8 @@ jobs:
       - name: gcc-clang-native
         run: |
           echo "gcc-clang-native"
-          echo "${{ matrix.compiler }} -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256.cpp -I. -o hash_sha256.exe"
-          ${{ matrix.compiler }} -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256.cpp -I. -o hash_sha256.exe
+          echo "${{ matrix.compiler }} -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256_test.cpp -DHASH_HASH256_PC -I. -o hash_sha256.exe"
+          ${{ matrix.compiler }} -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256_test.cpp -DHASH_HASH256_PC -I. -o hash_sha256.exe
           echo "ls ./hash_sha256.exe"
           ls -la ./hash_sha256.exe
           ./hash_sha256.exe
@@ -51,8 +51,8 @@ jobs:
       - name: apple-gcc-clang-native
         run: |
           echo "apple-gcc-clang-native"
-          echo "${{ matrix.compiler }} -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256.cpp -I. -o hash_sha256.exe"
-          ${{ matrix.compiler }} -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256.cpp -I. -o hash_sha256.exe
+          echo "${{ matrix.compiler }} -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256_test.cpp -DHASH_HASH256_PC -I. -o hash_sha256.exe"
+          ${{ matrix.compiler }} -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256_test.cpp -DHASH_HASH256_PC -I. -o hash_sha256.exe
           echo "ls ./hash_sha256.exe"
           ls -la ./hash_sha256.exe
           ./hash_sha256.exe
@@ -69,6 +69,7 @@ jobs:
         shell: cmd
         run: |
           set INCLUDE=%cd%;%INCLUDE%
+          set CL=/DHASH_HASH256_PC
           MSBuild -m hash_sha256.sln -p:useenv=true -p:Configuration=Release -p:Platform=x64 /t:Rebuild
           dir %cd%\Out\Bin\Release\hash_sha256.exe
           %cd%\Out\Bin\Release\hash_sha256.exe
@@ -94,7 +95,7 @@ jobs:
           echo "+++ print clang-tidy version"
           clang-tidy --version
           echo "+++ running clang-tidy"
-          clang-tidy -checks="*,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-llvm-header-guard,-cppcoreguidelines-pro-bounds-constant-array-index,-fuchsia-trailing-return,-readability-identifier-naming" hash_sha256.cpp -- -I.
+          clang-tidy -checks="*,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-llvm-header-guard,-cppcoreguidelines-pro-bounds-constant-array-index,-fuchsia-trailing-return,-readability-identifier-naming" hash_sha256_test.cpp -- -I. -DHASH_HASH256_PC
   stm32f429-qemu:
     runs-on: ubuntu-latest
     defaults:
@@ -116,9 +117,9 @@ jobs:
       - name: build-hash_sha256-stm32f429
         run: |
           mkdir -p bin
-          emu_env/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-g++ -std=c++20 -Wall -Wextra -pedantic -O0 -g -gdwarf-2 -ffunction-sections -DSTD_HASH256_GDB -fdata-sections -x c++ -fno-rtti -fno-use-cxa-atexit -fno-exceptions -fno-nonansi-builtins -fno-threadsafe-statics -fno-enforce-eh-specs -ftemplate-depth=32 -mcpu=cortex-m4 -mtune=cortex-m4 -mthumb -mfloat-abi=soft -mno-unaligned-access -mno-long-calls -I. hash_sha256.cpp ./qemu_build/stm32f429_startup.cpp -nostartfiles -Wl,--gc-sections -Wl,-Map,./bin/hash_sha256.map -T ./qemu_build/stm32f429.ld --specs=nano.specs --specs=nosys.specs -o ./bin/hash_sha256.elf
-          emu_env/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-objcopy ./bin/hash_sha256.elf -O ihex ./bin/hash_sha256.hex
-          ls -la ./bin/hash_sha256.elf ./bin/hash_sha256.hex ./bin/hash_sha256.map
+          emu_env/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-g++ -std=c++20 -Wall -Wextra -pedantic -O0 -g -gdwarf-2 -ffunction-sections -DHASH_HASH256_QEMU -fdata-sections -x c++ -fno-rtti -fno-use-cxa-atexit -fno-exceptions -fno-nonansi-builtins -fno-threadsafe-statics -fno-enforce-eh-specs -ftemplate-depth=32 -mcpu=cortex-m4 -mtune=cortex-m4 -mthumb -mfloat-abi=soft -mno-unaligned-access -mno-long-calls -I. hash_sha256_test.cpp ./qemu_build/stm32f429_startup.cpp -nostartfiles -Wl,--gc-sections -Wl,-Map,./bin/hash_sha256_test.map -T ./qemu_build/stm32f429.ld --specs=nano.specs --specs=nosys.specs -o ./bin/hash_sha256_test.elf
+          emu_env/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-objcopy ./bin/hash_sha256_test.elf -O ihex ./bin/hash_sha256_test.hex
+          ls -la ./bin/hash_sha256_test.elf ./bin/hash_sha256_test.hex ./bin/hash_sha256_test.map
         working-directory: .
       - name: emulate-target-stm32f429
         run: |
@@ -126,7 +127,7 @@ jobs:
         working-directory: .
       - name: run-test-on-target
         run: |
-          ./emu_env/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gdb-py ./bin/hash_sha256.elf -x ./qemu_build/test_hash_sha256_emulator.py
+          ./emu_env/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gdb-py ./bin/hash_sha256_test.elf -x ./qemu_build/test_hash_sha256_emulator.py
           qemu_result=$?
           echo "qemu_result" "$qemu_result"
           echo "qemu_result" "$qemu_result" | grep 'qemu_result 0'

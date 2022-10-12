@@ -14,233 +14,216 @@
   #include <array>
   #include <cstdint>
 
-  using hash_output_type = std::array<std::uint8_t, 32U>;
+  using sha256_output_type = std::array<std::uint8_t, 32U>;
 
   class hash_sha256
   {
   public:
-    hash_sha256():
-      m_data {0U}
-      {
-        m_init_hash_val[0U] = UINT32_C(0x6A09E667);
-        m_init_hash_val[1U] = UINT32_C(0xBB67AE85);
-        m_init_hash_val[2U] = UINT32_C(0x3C6EF372);
-        m_init_hash_val[3U] = UINT32_C(0xA54FF53A);
-        m_init_hash_val[4U] = UINT32_C(0x510E527F);
-        m_init_hash_val[5U] = UINT32_C(0x9B05688C);
-        m_init_hash_val[6U] = UINT32_C(0x1F83D9AB);
-        m_init_hash_val[7U] = UINT32_C(0x5BE0CD19);
-      }
-    
+    hash_sha256()                   = default;
     hash_sha256(const hash_sha256&) = delete;
     hash_sha256(hash_sha256&&)      = delete;
     virtual ~hash_sha256()          = default; // LCOV_EXCL_LINE
 
     auto operator=(const hash_sha256&) -> hash_sha256& = delete;
     auto operator=(hash_sha256&&) -> hash_sha256&      = delete;
-    
-    auto update(const std::uint8_t* data, std::size_t length) -> void
+
+    void sha256_init()
     {
-      for(std::size_t i = 0 ; i < length ; ++i)
+      datalen = 0U;
+      bitlen  = 0U;
+
+      init_hash_val[0U] = UINT32_C(0x6A09E667);
+      init_hash_val[1U] = UINT32_C(0xBB67AE85);
+      init_hash_val[2U] = UINT32_C(0x3C6EF372);
+      init_hash_val[3U] = UINT32_C(0xA54FF53A);
+      init_hash_val[4U] = UINT32_C(0x510E527F);
+      init_hash_val[5U] = UINT32_C(0x9B05688C);
+      init_hash_val[6U] = UINT32_C(0x1F83D9AB);
+      init_hash_val[7U] = UINT32_C(0x5BE0CD19);
+    }
+
+    void sha256_update(const std::uint8_t* msg, const size_t length)
+    {
+      for (std::size_t i = 0U; i < length; ++i)
       {
-        m_data[m_blocklen++] = data[i]; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+        data[datalen] = msg[i];
+        datalen++;
 
-        if(m_blocklen == 64U)
+        if(datalen == 64U)
         {
-          transform();
-
-          // End of the block
-          m_bitlen  += 512U;
-          m_blocklen = 0U;
+          sha256_transform(data.data());
+          datalen = 0U;
+          bitlen += 512U;
         }
       }
     }
 
-    auto digest() -> hash_output_type
+    auto sha256_final() -> sha256_output_type
     {
-      hash_output_type hash = {0U};
+      std::size_t i = 0U;
+      sha256_output_type hash_result = {0U};
+      i = datalen;
 
-      pad();
+      // Pad whatever data is left in the buffer.
+      if(datalen < 56U)
+      {
+        data[i++] = 0x80U;
+        std::fill((data.begin() + i), (data.begin() + 56U), 0U);
+      }
+      else
+      {
+        data[i++] = 0x80U;
+        std::fill((data.begin() + i), data.end(), 0U);
+        sha256_transform(data.data());
+        std::fill_n(data.begin(), 56U, 0U);
+      }
 
-      convert(hash.data());
+      // Append to the padding the total message's length in bits and transform.
+      bitlen   += static_cast<std::uint64_t>(datalen * UINT8_C(8));
 
-      return hash;
+      data[63U] = static_cast<std::uint8_t>(bitlen >> UINT8_C( 0));
+      data[62U] = static_cast<std::uint8_t>(bitlen >> UINT8_C( 8));
+      data[61U] = static_cast<std::uint8_t>(bitlen >> UINT8_C(16));
+      data[60U] = static_cast<std::uint8_t>(bitlen >> UINT8_C(24));
+      data[59U] = static_cast<std::uint8_t>(bitlen >> UINT8_C(32));
+      data[58U] = static_cast<std::uint8_t>(bitlen >> UINT8_C(40));
+      data[57U] = static_cast<std::uint8_t>(bitlen >> UINT8_C(48));
+      data[56U] = static_cast<std::uint8_t>(bitlen >> UINT8_C(56));
+
+      sha256_transform(data.data());
+
+      // Since this implementation uses little endian byte ordering and SHA uses big endian,
+      // reverse all the bytes when copying the final init_hash_val to the output hash.
+      for(std::size_t i = 0U; i < 4U; ++i)
+      {
+        hash_result[i +  0U] = ((init_hash_val[0U] >> (24U - (i * 8U))) & UINT32_C(0x000000FF));
+        hash_result[i +  4U] = ((init_hash_val[1U] >> (24U - (i * 8U))) & UINT32_C(0x000000FF));
+        hash_result[i +  8U] = ((init_hash_val[2U] >> (24U - (i * 8U))) & UINT32_C(0x000000FF));
+        hash_result[i + 12U] = ((init_hash_val[3U] >> (24U - (i * 8U))) & UINT32_C(0x000000FF));
+        hash_result[i + 16U] = ((init_hash_val[4U] >> (24U - (i * 8U))) & UINT32_C(0x000000FF));
+        hash_result[i + 20U] = ((init_hash_val[5U] >> (24U - (i * 8U))) & UINT32_C(0x000000FF));
+        hash_result[i + 24U] = ((init_hash_val[6U] >> (24U - (i * 8U))) & UINT32_C(0x000000FF));
+        hash_result[i + 28U] = ((init_hash_val[7U] >> (24U - (i * 8U))) & UINT32_C(0x000000FF));
+      }
+
+      return hash_result;
     }
 
   private:
-    std::uint64_t m_bitlen   = 0U;
-    std::uint32_t m_blocklen = 0U;
-
-    std::array<std::uint8_t,  64U> m_data          = {0U};
-    std::array<std::uint32_t,  8U> m_init_hash_val = {0U};
+    std::uint32_t datalen;
+    std::uint64_t bitlen;
+    std::array<std::uint8_t, 64U> data;
+    std::array<std::uint32_t, 8U> init_hash_val;
 
     static constexpr std::array<std::uint32_t, 64U> K =
     {
-      0x428A2F98U, 0x71374491U, 0xB5C0FBCFU, 0xE9B5DBA5U,
-      0x3956C25BU, 0x59F111F1U, 0x923F82A4U, 0xAB1C5ED5U,
-      0xD807AA98U, 0x12835B01U, 0x243185BEU, 0x550C7DC3U,
-      0x72BE5D74U, 0x80DEB1FEU, 0x9BDC06A7U, 0xC19BF174U,
-      0xE49B69C1U, 0xEFBE4786U, 0x0FC19DC6U, 0x240CA1CCU,
-      0x2DE92C6FU, 0x4A7484AAU, 0x5CB0A9DCU, 0x76F988DAU,
-      0x983E5152U, 0xA831C66DU, 0xB00327C8U, 0xBF597FC7U,
-      0xC6E00BF3U, 0xD5A79147U, 0x06CA6351U, 0x14292967U,
-      0x27B70A85U, 0x2E1B2138U, 0x4D2C6DFCU, 0x53380D13U,
-      0x650A7354U, 0x766A0ABBU, 0x81C2C92EU, 0x92722C85U,
-      0xA2BFE8A1U, 0xA81A664BU, 0xC24B8B70U, 0xC76C51A3U,
-      0xD192E819U, 0xD6990624U, 0xF40E3585U, 0x106AA070U,
-      0x19A4C116U, 0x1E376C08U, 0x2748774CU, 0x34B0BCB5U,
-      0x391C0CB3U, 0x4ED8AA4AU, 0x5B9CCA4FU, 0x682E6FF3U,
-      0x748F82EEU, 0x78A5636FU, 0x84C87814U, 0x8CC70208U,
-      0x90BEFFFAU, 0xA4506CEBU, 0xBEF9A3F7U, 0xC67178F2U
+      UINT32_C(0x428A2F98), UINT32_C(0x71374491), UINT32_C(0xB5C0FBCF), UINT32_C(0xE9B5DBA5),
+      UINT32_C(0x3956C25B), UINT32_C(0x59F111F1), UINT32_C(0x923F82A4), UINT32_C(0xAB1C5ED5),
+      UINT32_C(0xD807AA98), UINT32_C(0x12835B01), UINT32_C(0x243185BE), UINT32_C(0x550C7DC3),
+      UINT32_C(0x72BE5D74), UINT32_C(0x80DEB1FE), UINT32_C(0x9BDC06A7), UINT32_C(0xC19BF174),
+      UINT32_C(0xE49B69C1), UINT32_C(0xEFBE4786), UINT32_C(0x0FC19DC6), UINT32_C(0x240CA1CC),
+      UINT32_C(0x2DE92C6F), UINT32_C(0x4A7484AA), UINT32_C(0x5CB0A9DC), UINT32_C(0x76F988DA),
+      UINT32_C(0x983E5152), UINT32_C(0xA831C66D), UINT32_C(0xB00327C8), UINT32_C(0xBF597FC7),
+      UINT32_C(0xC6E00BF3), UINT32_C(0xD5A79147), UINT32_C(0x06CA6351), UINT32_C(0x14292967),
+      UINT32_C(0x27B70A85), UINT32_C(0x2E1B2138), UINT32_C(0x4D2C6DFC), UINT32_C(0x53380D13),
+      UINT32_C(0x650A7354), UINT32_C(0x766A0ABB), UINT32_C(0x81C2C92E), UINT32_C(0x92722C85),
+      UINT32_C(0xA2BFE8A1), UINT32_C(0xA81A664B), UINT32_C(0xC24B8B70), UINT32_C(0xC76C51A3),
+      UINT32_C(0xD192E819), UINT32_C(0xD6990624), UINT32_C(0xF40E3585), UINT32_C(0x106AA070),
+      UINT32_C(0x19A4C116), UINT32_C(0x1E376C08), UINT32_C(0x2748774C), UINT32_C(0x34B0BCB5),
+      UINT32_C(0x391C0CB3), UINT32_C(0x4ED8AA4A), UINT32_C(0x5B9CCA4F), UINT32_C(0x682E6FF3),
+      UINT32_C(0x748F82EE), UINT32_C(0x78A5636F), UINT32_C(0x84C87814), UINT32_C(0x8CC70208),
+      UINT32_C(0x90BEFFFA), UINT32_C(0xA4506CEB), UINT32_C(0xBEF9A3F7), UINT32_C(0xC67178F2)
     };
 
-    // circular right shift ROTR^n(x)
-    static auto rotr(std::uint32_t x, std::uint32_t n) -> std::uint32_t
+    auto sha256_transform(const std::uint8_t* data) -> void
     {
-      return (static_cast<std::uint32_t>(x >> n) | static_cast<std::uint32_t>(x << (32U - n)));
-    }
-
-    static auto sha_ch(std::uint32_t e, std::uint32_t f, std::uint32_t g) -> std::uint32_t
-    {
-      return (static_cast<std::uint32_t>(e & f) ^ static_cast<std::uint32_t>(~e & g));
-    }
-
-    static auto sha_maj(std::uint32_t a, std::uint32_t b, std::uint32_t c) -> std::uint32_t
-    {
-      return (static_cast<std::uint32_t>(a & (b | c)) | static_cast<std::uint32_t>(b & c));
-    }
-
-    static auto bsig0(std::uint32_t x) -> std::uint32_t
-    {
-      return (rotr(x, 2U) ^ rotr(x, 13U) ^ rotr(x, 22U));
-    }
-
-    static auto bsig1(std::uint32_t x) -> std::uint32_t
-    {
-      return (rotr(x, 6U) ^ rotr(x, 11U) ^ rotr(x, 25U));
-    }
-
-    static auto ssig0(std::uint32_t x) -> std::uint32_t
-    {
-      return (rotr(x, 7U) ^ rotr(x, 18U) ^ (x >> 3U));
-    }
-
-    static auto ssig1(std::uint32_t x) -> std::uint32_t
-    {
-      return (rotr(x, 17U) ^ rotr(x, 19U) ^ (x >> 10U));
-    }
-
-    auto transform() -> void
-    {
-      std::uint32_t sum  = 0U;
       std::uint32_t tmp1 = 0U;
       std::uint32_t tmp2 = 0U;
 
-      std::array<std::uint32_t, 64> m     = {0U};
       std::array<std::uint32_t, 8U> state = {0U};
+      std::array<std::uint32_t, 64> m     = {0U};
 
-      std::size_t j = 0U;
-
-      for(std::uint8_t i = 0U; i < 16U; ++i)
+      for(std::size_t i = 0U, j = 0U; i < 16U; ++i, j += 4U)
       {
-        // Split data in 32 bit blocks for the 16 first words
-        m[i] = static_cast<std::uint32_t>(   static_cast<std::uint32_t>(static_cast<std::uint32_t>(m_data[j + 0U]) << 24U)
-                                           | static_cast<std::uint32_t>(static_cast<std::uint32_t>(m_data[j + 1U]) << 16U)
-                                           | static_cast<std::uint32_t>(static_cast<std::uint32_t>(m_data[j + 2U]) <<  8U)
-                                           | static_cast<std::uint32_t>(static_cast<std::uint32_t>(m_data[j + 3U]) <<  0U));
-        j += 4U;
+        m[i] = static_cast<std::uint32_t>(  static_cast<std::uint32_t>(data[j + 0U] << 24U) 
+                                          | static_cast<std::uint32_t>(data[j + 1U] << 16U) 
+                                          | static_cast<std::uint32_t>(data[j + 2U] <<  8U)
+                                          | static_cast<std::uint32_t>(data[j + 3U] <<  0U));
       }
 
-      for(std::uint8_t k = 16U; k < 64U; ++k)
+      for(std::size_t i = 16U ; i < 64U; ++i)
       {
-        // Remaining 48 blocks
-        m[k] = ssig1(m[k - 2U]) + m[k - 7U] + ssig0(m[k - 15U]) + m[k - 16U];
+        m[i] = ssig1(m[i - 2U]) + m[i - 7U] + ssig0(m[i - 15U]) + m[i - 16U];
       }
 
-      std::copy(m_init_hash_val.begin(), m_init_hash_val.end(), state.begin());
+      std::copy(init_hash_val.begin(), init_hash_val.end() , state.begin());
 
-      for(std::uint8_t i = 0U; i < 64U; ++i)
+      for(std::size_t i = 0U; i < 64U; ++i)
       {
-        sum   = (  static_cast<std::uint32_t>(m[i])
-                 + static_cast<std::uint32_t>(hash_sha256::K[i])
-                 + static_cast<std::uint32_t>(state[7U])
-                 + static_cast<std::uint32_t>(sha_ch(state[4U], state[5U], state[6U]))
-                 + static_cast<std::uint32_t>(bsig1(state[4U])));
+        tmp1 = state[7U] + bsig1(state[4U]) + ch(state[4U], state[5U], state[6U]) + K[i] + m[i];
 
-        tmp1  = (  static_cast<std::uint32_t>(bsig0(state[0U]))
-                 + static_cast<std::uint32_t>(sha_maj(state[0U], state[1U], state[2U]))
-                 + static_cast<std::uint32_t>(sum));
-
-        tmp2  = (  static_cast<std::uint32_t>(state[3U])
-                 + static_cast<std::uint32_t>(sum));
+        tmp2 = bsig0(state[0U]) + maj(state[0U], state[1U], state[2U]);
 
         state[7U] = state[6U];
         state[6U] = state[5U];
         state[5U] = state[4U];
-        state[4U] = tmp2;
+        state[4U] = state[3U] + tmp1;
         state[3U] = state[2U];
         state[2U] = state[1U];
         state[1U] = state[0U];
-        state[0U] = tmp1;
+        state[0U] = tmp1 + tmp2;
       }
 
-      for(std::uint8_t i = 0U; i < 8U; ++i)
-      {
-        m_init_hash_val[i] += state[i];
-      }
-
+      init_hash_val[0U] += state[0U];
+      init_hash_val[1U] += state[1U];
+      init_hash_val[2U] += state[2U];
+      init_hash_val[3U] += state[3U];
+      init_hash_val[4U] += state[4U];
+      init_hash_val[5U] += state[5U];
+      init_hash_val[6U] += state[6U];
+      init_hash_val[7U] += state[7U];
     }
 
-    auto pad() -> void
+    // circular left shift ROTR^n(x)
+    static inline auto rotl(std::uint32_t a, std::uint32_t b) -> std::uint32_t
     {
-            std::uint64_t i  = m_blocklen;
-      const std::uint8_t end = (m_blocklen < 56U) ? 56U : 64U;
-
-      m_data[i++] = 0x80U;  // Append a bit 1
-
-      std::fill((m_data.begin() + i), (m_data.begin() + end), 0U);
-
-
-      if(m_blocklen >= 56U)
-      {
-        transform();
-
-        std::fill_n(m_data.begin(), 56U, 0U);
-      }
-
-      // Append to the padding the total message's length in bits and transform.
-      m_bitlen   += static_cast<std::uint64_t>(static_cast<std::uint32_t>(m_blocklen) * UINT8_C(8U));
-      m_data[63U] = static_cast<std::uint8_t> (static_cast<std::uint64_t>(m_bitlen)  >> UINT8_C(0U));
-      m_data[62U] = static_cast<std::uint8_t> (static_cast<std::uint64_t>(m_bitlen)  >> UINT8_C(8U));
-      m_data[61U] = static_cast<std::uint8_t> (static_cast<std::uint64_t>(m_bitlen)  >> UINT8_C(16U));
-      m_data[60U] = static_cast<std::uint8_t> (static_cast<std::uint64_t>(m_bitlen)  >> UINT8_C(24U));
-      m_data[59U] = static_cast<std::uint8_t> (static_cast<std::uint64_t>(m_bitlen)  >> UINT8_C(32U));
-      m_data[58U] = static_cast<std::uint8_t> (static_cast<std::uint64_t>(m_bitlen)  >> UINT8_C(40U));
-      m_data[57U] = static_cast<std::uint8_t> (static_cast<std::uint64_t>(m_bitlen)  >> UINT8_C(48U));
-      m_data[56U] = static_cast<std::uint8_t> (static_cast<std::uint64_t>(m_bitlen)  >> UINT8_C(56U));
-
-      transform();
+      return (static_cast<std::uint32_t>(a << b) | static_cast<std::uint32_t>(a >> (32 - b)));
     }
 
-    static auto u8from32(const std::uint32_t& src32, std::uint8_t* dst8) -> void
+    // circular right shift ROTR^n(x)
+    static inline auto rotr(std::uint32_t a, std::uint32_t b) -> std::uint32_t
     {
-      dst8[0U] = static_cast<std::uint8_t>(src32 >> 24U); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-      dst8[1U] = static_cast<std::uint8_t>(src32 >> 16U); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-      dst8[2U] = static_cast<std::uint8_t>(src32 >>  8U); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-      dst8[3U] = static_cast<std::uint8_t>(src32 >>  0U); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+      return (static_cast<std::uint32_t>(a >> b) | static_cast<std::uint32_t>(a << (32 - b)));
     }
 
-    auto convert(std::uint8_t* hash) -> void
+    static inline auto ch(std::uint32_t x, std::uint32_t y, std::uint32_t z) -> std::uint32_t
     {
-      std::size_t j = 0U;
+      return (static_cast<std::uint32_t>(x & y) ^ static_cast<std::uint32_t>(~x & z));
+    }
 
-      std::for_each(std::begin(m_init_hash_val), std::end(m_init_hash_val),
-        [&hash, &j](auto &elem)
-        {
-          u8from32(elem, &hash[j + 0U]); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-          j += 4U;
-        });
+    static inline auto maj(std::uint32_t x, std::uint32_t y, std::uint32_t z) -> std::uint32_t
+    {
+      return (static_cast<std::uint32_t>(x & y) ^ static_cast<std::uint32_t>(x & z) ^ static_cast<std::uint32_t>(y & z));
+    }
+
+    static inline auto bsig0(std::uint32_t x) -> std::uint32_t
+    {
+      return (rotr(x, 2U) ^ rotr(x, 13U) ^ rotr(x, 22U));
+    }
+
+    static inline auto bsig1(std::uint32_t x) -> std::uint32_t
+    {
+      return (rotr(x, 6U) ^ rotr(x, 11U) ^ rotr(x, 25U));
+    }
+
+    static inline auto ssig0(std::uint32_t x) -> std::uint32_t
+    {
+      return (rotr(x, 7U) ^ rotr(x, 18U) ^ (x >> 3U));
+    }
+
+    static inline auto ssig1(std::uint32_t x) -> std::uint32_t
+    {
+      return (rotr(x, 17U) ^ rotr(x, 19U) ^ (x >> 10U));
     }
   };
-
 #endif // HASH_SHA256_2022_06_02_H

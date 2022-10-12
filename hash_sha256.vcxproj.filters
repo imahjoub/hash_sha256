@@ -10,7 +10,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="hash_sha256.cpp">
+    <ClCompile Include="hash_sha256_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

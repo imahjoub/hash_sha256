@@ -58,7 +58,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>STD_HASH256_IOSTREAM</PreprocessorDefinitions>
+      <PreprocessorDefinitions>HASH_HASH256_PC</PreprocessorDefinitions>
     </ClCompile>
     <BuildLog>
       <Path>$(OutDir)$(MSBuildProjectName).log</Path>
@@ -75,7 +75,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>STD_HASH256_IOSTREAM</PreprocessorDefinitions>
+      <PreprocessorDefinitions>HASH_HASH256_PC</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -87,7 +87,7 @@
     </BuildLog>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="hash_sha256.cpp" />
+    <ClCompile Include="hash_sha256_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="hash_sha256\hash_sha256.h" />
