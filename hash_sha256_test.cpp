@@ -82,7 +82,7 @@ extern "C"
 
   auto hash_sha256_get_gdb_result(void) -> bool;
 
-  auto hash_sha256_get_gdb_result(void) -> bool
+  auto hash_sha256_get_gdb_result(void) -> bool // LCOV_EXCL_LINE
   {
     hash_sha256_gdb_result =
       static_cast<std::uint32_t>
@@ -107,7 +107,7 @@ auto main() -> int
 
   hash_result_is_ok = (   hash_sha256_test1()
                        && hash_sha256_test2()
-                       && hash_sha256_get_gdb_result()); // (only for code coverage)
+                       && hash_sha256_get_gdb_result());
 
   std::cout << "hash_result_is_ok: " << std::boolalpha << hash_result_is_ok << std::endl;
 

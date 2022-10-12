@@ -24,7 +24,7 @@ hash_sha256
 </p>
 
 
-A simple and C++ header-only implementation of SHA-256. This implementation uses little endian byte order.
+A simple implementation of SHA-256 in C++ (header-only). This implementation uses little endian byte order.
 
 ## Characteristics of the SHA-256 Algorithm
 
@@ -39,26 +39,24 @@ A simple and C++ header-only implementation of SHA-256. This implementation uses
 
 ## Using the `hash_sha256`
 
-`hash_sha256` is a header-only c++ implementation of SHA-256
+  * The following program shows a test example
 
+  ```cpp
+  // Create an object of hash_sha256
+  hash_sha256 hash1;
 
-* The following program shows a test example
-```cpp
-// alias declaration
-using hash_output_type = std::array<std::uint8_t, 32U>;
+  // Original message
+  const std::array<std::uint8_t, 3U> msg1 = {'a', 'b', 'c' };
 
-// create an object of hash_sha256
-hash_sha256 my_sha256;
+  // Initialize hash
+  hash1.sha256_init();
 
-// original message
-const std::array<std::uint8_t, 3U> my_msg = { 'a', 'b', 'c'};
+  // Update the hash with given data
+    hash1.sha256_update(msg1.data(), msg1.size());
 
-// update the hash with given data
-my_sha256.update(my_msg.data(), my_msg.size());
-
-// final hash result
-hash_output_type hash_result = my_sha256.digest();
-```
+  // Final hash result
+  sha256_output_type hash_result1 = hash1.sha256_final();
+  ```
 
 ## Testing, continuous integration and quality
 Testing and continuous integration runs on GitHub Actions.
