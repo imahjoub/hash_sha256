@@ -13,7 +13,7 @@ on:
   pull_request:
 jobs:
   gnumake-gcc-gcov-native:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
