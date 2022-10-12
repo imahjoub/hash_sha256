@@ -26,9 +26,6 @@
     <None Include="sonar-project.properties">
       <Filter>Source Files</Filter>
     </None>
-    <None Include=".codacy.yml">
-      <Filter>Source Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="LICENSE_1_0.txt">
