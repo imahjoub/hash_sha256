@@ -72,3 +72,7 @@ These include
 [LGTM](https://lgtm.com/projects/g/imahjoub/hash_sha256/alerts/?mode=list)
 and [CodeSonar](https://sonarcloud.io/summary/new_code?id=imahjoub_hash_sha256).
 
+
+## References
+Algorithm specification can be found here:
+* http://csrc.nist.gov/publications/fips/fips180-2/fips180-2withchangenotice.pdf
