@@ -143,16 +143,12 @@
       std::array<std::uint32_t, 8U> state = {0U};
       std::array<std::uint32_t, 64> m     = {0U};
 
-      std::size_t j = 0U;
-
-      for(std::size_t i = 0U, j = 0U; i < 16U; ++i)
+      for(std::size_t i = 0U, j = 0U; i < 16U; ++i, j += 4U)
       {
-        m[i] = static_cast<std::uint32_t>(  (data[j + 0U] << 24U) 
-                                          | (data[j + 1U] << 16U) 
-                                          | (data[j + 2U] <<  8U)
-                                          | (data[j + 3U] <<  0U));
-
-        j += 4U;
+        m[i] = static_cast<std::uint32_t>(  static_cast<std::uint32_t>(data[j + 0U] << 24U) 
+                                          | static_cast<std::uint32_t>(data[j + 1U] << 16U) 
+                                          | static_cast<std::uint32_t>(data[j + 2U] <<  8U)
+                                          | static_cast<std::uint32_t>(data[j + 3U] <<  0U));
       }
 
       for(std::size_t i = 16U ; i < 64U; ++i)
