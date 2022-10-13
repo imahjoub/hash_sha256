@@ -141,7 +141,7 @@
       std::uint32_t tmp2 = 0U;
 
       std::array<std::uint32_t, 8U> state = {0U};
-      std::array<std::uint32_t, 64> m     = {0U};
+      std::array<std::uint32_t, 64U> m    = {0U};
 
       for(std::size_t i = 0U, j = 0U; i < 16U; ++i, j += 4U)
       {
@@ -187,13 +187,13 @@
     // circular left shift ROTR^n(x)
     static inline auto rotl(std::uint32_t a, std::uint32_t b) -> std::uint32_t
     {
-      return (static_cast<std::uint32_t>(a << b) | static_cast<std::uint32_t>(a >> (32 - b)));
+      return (static_cast<std::uint32_t>(a << b) | static_cast<std::uint32_t>(a >> (32U - b)));
     }
 
     // circular right shift ROTR^n(x)
     static inline auto rotr(std::uint32_t a, std::uint32_t b) -> std::uint32_t
     {
-      return (static_cast<std::uint32_t>(a >> b) | static_cast<std::uint32_t>(a << (32 - b)));
+      return (static_cast<std::uint32_t>(a >> b) | static_cast<std::uint32_t>(a << (32U - b)));
     }
 
     static inline auto ch(std::uint32_t x, std::uint32_t y, std::uint32_t z) -> std::uint32_t
