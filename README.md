@@ -26,17 +26,6 @@ hash_sha256
 
 A simple implementation of SHA-256 in C++ (header-only). This implementation uses little endian byte order.
 
-## Characteristics of the SHA-256 Algorithm
-
-  * SHA-256 is an unkeyed cryptographic hashing function that takes an input of variable length and produces a 256-bit long hash output
-
-  * Message Length: The length of the cleartext should be less than 264 bits. The size needs to be in the comparison area to keep the digest as random as possible.
-
-  * Digest Length: The length of the hash digest should be 256 bits in SHA 256 algorithm, 512 bits in SHA-512, and so on. Bigger digests usually suggest significantly more calculations at the cost of speed and space.
-
-  * Irreversible: By design, all hash functions such as the SHA 256 are irreversible. You should neither get a plaintext when you have the digest beforehand nor should the digest provide its original value when you pass it through the hash function again.
-
-
 ## Using the `hash_sha256`
 
   * The following program shows a test example
