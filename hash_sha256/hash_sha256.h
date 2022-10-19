@@ -51,7 +51,7 @@
 
         if(datalen == 64U)
         {
-          sha256_transform(data.data());
+          sha256_transform();
           datalen = 0U;
           bitlen += 512U;
         }
@@ -74,7 +74,7 @@
       {
         data[i++] = 0x80U;
         std::fill((data.begin() + i), data.end(), 0U);
-        sha256_transform(data.data());
+        sha256_transform();
         std::fill_n(data.begin(), 56U, 0U);
       }
 
@@ -90,20 +90,20 @@
       data[57U] = static_cast<std::uint8_t>(bitlen >> UINT8_C(48));
       data[56U] = static_cast<std::uint8_t>(bitlen >> UINT8_C(56));
 
-      sha256_transform(data.data());
+      sha256_transform();
 
       // Since this implementation uses little endian byte ordering and SHA uses big endian,
       // reverse all the bytes when copying the final init_hash_val to the output hash.
-      for(std::size_t i = 0U; i < 4U; ++i)
+      for(std::size_t j = 0U; j < 4U; ++j)
       {
-        hash_result[i +  0U] = ((init_hash_val[0U] >> (24U - (i * 8U))) & UINT32_C(0x000000FF));
-        hash_result[i +  4U] = ((init_hash_val[1U] >> (24U - (i * 8U))) & UINT32_C(0x000000FF));
-        hash_result[i +  8U] = ((init_hash_val[2U] >> (24U - (i * 8U))) & UINT32_C(0x000000FF));
-        hash_result[i + 12U] = ((init_hash_val[3U] >> (24U - (i * 8U))) & UINT32_C(0x000000FF));
-        hash_result[i + 16U] = ((init_hash_val[4U] >> (24U - (i * 8U))) & UINT32_C(0x000000FF));
-        hash_result[i + 20U] = ((init_hash_val[5U] >> (24U - (i * 8U))) & UINT32_C(0x000000FF));
-        hash_result[i + 24U] = ((init_hash_val[6U] >> (24U - (i * 8U))) & UINT32_C(0x000000FF));
-        hash_result[i + 28U] = ((init_hash_val[7U] >> (24U - (i * 8U))) & UINT32_C(0x000000FF));
+        hash_result[j +  0U] = ((init_hash_val[0U] >> (24U - (j * 8U))) & UINT32_C(0x000000FF));
+        hash_result[j +  4U] = ((init_hash_val[1U] >> (24U - (j * 8U))) & UINT32_C(0x000000FF));
+        hash_result[j +  8U] = ((init_hash_val[2U] >> (24U - (j * 8U))) & UINT32_C(0x000000FF));
+        hash_result[j + 12U] = ((init_hash_val[3U] >> (24U - (j * 8U))) & UINT32_C(0x000000FF));
+        hash_result[j + 16U] = ((init_hash_val[4U] >> (24U - (j * 8U))) & UINT32_C(0x000000FF));
+        hash_result[j + 20U] = ((init_hash_val[5U] >> (24U - (j * 8U))) & UINT32_C(0x000000FF));
+        hash_result[j + 24U] = ((init_hash_val[6U] >> (24U - (j * 8U))) & UINT32_C(0x000000FF));
+        hash_result[j + 28U] = ((init_hash_val[7U] >> (24U - (j * 8U))) & UINT32_C(0x000000FF));
       }
 
       return hash_result;
@@ -135,7 +135,7 @@
       UINT32_C(0x90BEFFFA), UINT32_C(0xA4506CEB), UINT32_C(0xBEF9A3F7), UINT32_C(0xC67178F2)
     };
 
-    auto sha256_transform(const std::uint8_t* data) -> void
+    auto sha256_transform() -> void
     {
       std::uint32_t tmp1 = 0U;
       std::uint32_t tmp2 = 0U;
