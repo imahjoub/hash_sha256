@@ -74,7 +74,7 @@
       {
         data[i++] = 0x80U;
         std::fill((data.begin() + i), data.end(), 0U);
-        sha256_transform(data.data());
+        sha256_transform();
         std::fill_n(data.begin(), 56U, 0U);
       }
 
