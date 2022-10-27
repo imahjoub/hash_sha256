@@ -43,7 +43,7 @@ A simple implementation of SHA-256 in C++ (header-only). This implementation use
   // Update the hash with given data
     hash1.sha256_update(msg1.data(), msg1.size());
 
-  // Final hash result
+  // Get hash result
   sha256_output_type hash_result1 = hash1.sha256_final();
   ```
 
@@ -58,8 +58,7 @@ quality-gate with comparison/baseline-check provided by third-party [Codecov](ht
 Additional quality checks are performed on pull-request
 and merge to master using modern third party open-source services.
 These include
-[LGTM](https://lgtm.com/projects/g/imahjoub/hash_sha256/alerts/?mode=list)
-and [CodeSonar](https://sonarcloud.io/summary/new_code?id=imahjoub_hash_sha256).
+[LGTM](https://lgtm.com/projects/g/imahjoub/hash_sha256/alerts/?mode=list) and [CodeSonar](https://sonarcloud.io/summary/new_code?id=imahjoub_hash_sha256).
 
 
 ## References
