@@ -70,6 +70,7 @@
         data[i++] = 0x80U;
         std::fill((data.begin() + i), (data.begin() + 56U), 0U);
       }
+
       else
       {
         data[i++] = 0x80U;
@@ -145,10 +146,13 @@
 
       for(std::size_t i = 0U, j = 0U; i < 16U; ++i, j += 4U)
       {
-        m[i] = static_cast<std::uint32_t>(  static_cast<std::uint32_t>(data[j + 0U] << 24U) 
-                                          | static_cast<std::uint32_t>(data[j + 1U] << 16U) 
-                                          | static_cast<std::uint32_t>(data[j + 2U] <<  8U)
-                                          | static_cast<std::uint32_t>(data[j + 3U] <<  0U));
+        m[i] = static_cast<std::uint32_t>
+        (
+            static_cast<std::uint32_t>(data[j + 0U] << 24U)
+          | static_cast<std::uint32_t>(data[j + 1U] << 16U)
+          | static_cast<std::uint32_t>(data[j + 2U] <<  8U)
+          | static_cast<std::uint32_t>(data[j + 3U] <<  0U)
+        );
       }
 
       for(std::size_t i = 16U ; i < 64U; ++i)
