@@ -24,8 +24,8 @@
     hash_sha256(hash_sha256&&)      = delete;
     virtual ~hash_sha256()          = default; // LCOV_EXCL_LINE
 
+    auto operator=(hash_sha256&&)      -> hash_sha256& = delete;
     auto operator=(const hash_sha256&) -> hash_sha256& = delete;
-    auto operator=(hash_sha256&&) -> hash_sha256&      = delete;
 
     void sha256_init()
     {
