@@ -23,7 +23,7 @@ jobs:
         standard: [ c++17 ]
         compiler: [ g++ ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: '0'
       - name: update-tools
@@ -38,7 +38,7 @@ jobs:
           lcov -c --directory . --output-file coverage_unfiltered.info
           lcov --remove coverage_unfiltered.info '/usr/*' --output-file coverage.info
       - name: upload-codecov
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: coverage.info
