@@ -148,10 +148,10 @@
       {
         m[i] = static_cast<std::uint32_t>
         (
-            static_cast<std::uint32_t>(data[j + 0U] << 24U)
-          | static_cast<std::uint32_t>(data[j + 1U] << 16U)
-          | static_cast<std::uint32_t>(data[j + 2U] <<  8U)
-          | static_cast<std::uint32_t>(data[j + 3U] <<  0U)
+            static_cast<std::uint32_t>(static_cast<std::uint32_t>(data[j + 0U]) << 24U)
+          | static_cast<std::uint32_t>(static_cast<std::uint32_t>(data[j + 1U]) << 16U)
+          | static_cast<std::uint32_t>(static_cast<std::uint32_t>(data[j + 2U]) <<  8U)
+          | static_cast<std::uint32_t>(static_cast<std::uint32_t>(data[j + 3U]) <<  0U)
         );
       }
 
