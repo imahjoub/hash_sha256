@@ -62,7 +62,7 @@ These include
 
 ## Algorithm efficiency
 The following picture shows the real-time measurement of the `sha256` benchmark run on 32-bit microcontrollers (ARM Cortex™ M4) of the `NUCLEO-F446RE` board.
-The hash calculation takes about 32 `\mu`s
+The hash calculation takes about 32 `\mu` s
 
 ![sha_256](https://user-images.githubusercontent.com/48915588/206875379-1ba68838-5d61-4fde-b43c-ccdc65641f6e.jpg)
 
