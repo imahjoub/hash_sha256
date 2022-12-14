@@ -60,6 +60,12 @@ and merge to master using modern third party open-source services.
 These include
 [LGTM](https://lgtm.com/projects/g/imahjoub/hash_sha256/alerts/?mode=list) and [CodeSonar](https://sonarcloud.io/summary/new_code?id=imahjoub_hash_sha256).
 
+## Algorithm efficiency
+The following picture shows the real-time measurement of the `sha256` benchmark run on 32-bit microcontrollers (ARM Cortex™ M4) of the `NUCLEO-F446RE` board.
+The hash calculation takes about 32 µs
+
+![sha_256](https://user-images.githubusercontent.com/48915588/206875379-1ba68838-5d61-4fde-b43c-ccdc65641f6e.jpg)
+
 
 ## References
 Algorithm specification can be found here:
