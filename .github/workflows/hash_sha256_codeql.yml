@@ -38,9 +38,14 @@ jobs:
           languages: ${{ matrix.language }}
           queries: +security-and-quality
 
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v2
-
+      - name: gcc-native
+        run: |
+          echo "gcc-clang-native"
+          echo "g++ -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=c++2a hash_sha256_test.cpp -DHASH_HASH256_PC -I. -o hash_sha256.exe"
+          g++ -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=c++2a hash_sha256_test.cpp -DHASH_HASH256_PC -I. -o hash_sha256.exe
+          echo "ls ./hash_sha256.exe"
+          ls -la ./hash_sha256.exe
+          ./hash_sha256.exe
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
         with:
