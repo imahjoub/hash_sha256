@@ -1,12 +1,13 @@
 hash_sha256
 ==================
+
 <p align="center">
     <a href="https://github.com/imahjoub/hash_sha256/actions">
         <img src="https://github.com/imahjoub/hash_sha256/actions/workflows/hash_sha256.yml/badge.svg" alt="Build Status"></a>
     <a href="https://github.com/imahjoub/hash_sha256/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc">
         <img src="https://custom-icon-badges.herokuapp.com/github/issues-raw/imahjoub/hash_sha256?logo=github" alt="Issues" /></a>
     <a href="https://github.com/imahjoub/hash_sha256/actions/workflows/hash_sha256_codeql.yml">
-        <img src="https://github.com/imahjoub/hash_sha256/actions/workflows/codeql.yml/badge.svg" alt="CodeQL"></a>
+        <img src="https://github.com/imahjoub/hash_sha256/actions/workflows/hash_sha256_codeql.yml/badge.svg" alt="CodeQL"></a>
     <a href="https://app.codacy.com/gh/imahjoub/hash_sha256/dashboard">
         <img src="https://app.codacy.com/project/badge/Grade/913aec26f468405ab0ff9a29beb6d400" alt="Codacy Badge" /></a>
     <a href="https://sonarcloud.io/summary/new_code?id=imahjoub_hash_sha256">
@@ -20,7 +21,6 @@ hash_sha256
     <a href="https://github.com/imahjoub/hash_sha256" alt="Activity">
         <img src="https://img.shields.io/github/commit-activity/y/imahjoub/hash_sha256" /></a>
 </p>
-
 
 A simple implementation of SHA-256 in C++ (header-only). This implementation uses little endian byte order.
 
