@@ -1,5 +1,6 @@
 hash_sha256
 ==================
+
 <p align="center">
     <a href="https://github.com/imahjoub/hash_sha256/actions">
         <img src="https://github.com/imahjoub/hash_sha256/actions/workflows/hash_sha256.yml/badge.svg" alt="Build Status"></a>
@@ -20,7 +21,6 @@ hash_sha256
     <a href="https://github.com/imahjoub/hash_sha256" alt="Activity">
         <img src="https://img.shields.io/github/commit-activity/y/imahjoub/hash_sha256" /></a>
 </p>
-
 
 A simple implementation of SHA-256 in C++ (header-only). This implementation uses little endian byte order.
 
