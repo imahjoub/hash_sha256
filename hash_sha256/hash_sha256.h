@@ -27,7 +27,7 @@
     auto operator=(hash_sha256&&)      -> hash_sha256& = delete;
     auto operator=(const hash_sha256&) -> hash_sha256& = delete;
 
-    void sha256_init()
+    auto sha256_init() -> void
     {
       datalen = 0U;
       bitlen  = 0U;
@@ -42,7 +42,7 @@
       init_hash_val[7U] = UINT32_C(0x5BE0CD19);
     }
 
-    void sha256_update(const std::uint8_t* msg, const size_t length)
+    auto sha256_update(const std::uint8_t* msg, const size_t length) -> void
     {
       for (std::size_t i = 0U; i < length; ++i)
       {
