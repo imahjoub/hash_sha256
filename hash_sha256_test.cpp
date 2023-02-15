@@ -110,5 +110,5 @@ auto main() -> int
 
   #endif // STD_HASH256_QEMU
 
-  return hash_result_is_ok ? (0 : -1);
+  return hash_result_is_ok ? 0 : -1;
 }
