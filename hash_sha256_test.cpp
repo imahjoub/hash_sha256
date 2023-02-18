@@ -8,8 +8,8 @@
 ///////////////////////////////////////////////////////////////////
 
 #ifdef HASH_HASH256_PC
-#include <iostream>
 #include <cstring>
+#include <iostream>
 #endif // HASH_HASH256_PC
 
 #include <hash_sha256/hash_sha256.h>

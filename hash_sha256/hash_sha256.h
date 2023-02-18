@@ -19,13 +19,13 @@
   public:
     using result_type = std::array<std::uint8_t, UINT8_C(32)>;
 
-    constexpr hash_sha256()                   = default;
-    constexpr hash_sha256(const hash_sha256&) = default;
-    constexpr hash_sha256(hash_sha256&&)      = default;
-    ~hash_sha256()                            = default; // LCOV_EXCL_LINE
+    constexpr hash_sha256()                       = default;
+    constexpr hash_sha256(const hash_sha256&)     = default;
+    constexpr hash_sha256(hash_sha256&&) noexcept = default;
+    ~hash_sha256()                                = default; // LCOV_EXCL_LINE
 
-    constexpr auto operator=(hash_sha256&&)      -> hash_sha256& = default;
-    constexpr auto operator=(const hash_sha256&) -> hash_sha256& = default;
+    constexpr auto operator=(hash_sha256&&) noexcept -> hash_sha256& = default;
+    constexpr auto operator=(const hash_sha256&)     -> hash_sha256& = default;
 
     constexpr auto hash(const std::uint8_t* msg, const size_t length) -> result_type
     {
@@ -53,7 +53,7 @@
     {
       for (std::size_t i = 0U; i < length; ++i)
       {
-        data[my_datalen] = msg[i];
+        my_data[my_datalen] = msg[i];
         my_datalen++;
 
         if(my_datalen == 64U)
@@ -68,36 +68,36 @@
     constexpr auto sha256_finalize() -> result_type
     {
       std::size_t i           =  0U;
-      result_type hash_result = {0U};
+      result_type hash_result = { };
 
       i = my_datalen;
 
       // Pad whatever data is left in the buffer.
       if(my_datalen < 56U)
       {
-        data[i++] = 0x80U;
-        std::fill((data.begin() + i), (data.begin() + 56U), 0U);
+        my_data[i++] = 0x80U;
+        std::fill((my_data.begin() + i), (my_data.begin() + 56U), 0U);
       }
 
       else
       {
-        data[i++] = 0x80U;
-        std::fill((data.begin() + i), data.end(), 0U);
+        my_data[i++] = 0x80U;
+        std::fill((my_data.begin() + i), my_data.end(), 0U);
         sha256_transform();
-        std::fill_n(data.begin(), 56U, 0U);
+        std::fill_n(my_data.begin(), 56U, 0U);
       }
 
       // Append to the padding the total message's length in bits and transform.
       my_bitlen += static_cast<std::uint64_t>(my_datalen * UINT8_C(8));
 
-      data[63U] = static_cast<std::uint8_t>(my_bitlen >> UINT8_C( 0));
-      data[62U] = static_cast<std::uint8_t>(my_bitlen >> UINT8_C( 8));
-      data[61U] = static_cast<std::uint8_t>(my_bitlen >> UINT8_C(16));
-      data[60U] = static_cast<std::uint8_t>(my_bitlen >> UINT8_C(24));
-      data[59U] = static_cast<std::uint8_t>(my_bitlen >> UINT8_C(32));
-      data[58U] = static_cast<std::uint8_t>(my_bitlen >> UINT8_C(40));
-      data[57U] = static_cast<std::uint8_t>(my_bitlen >> UINT8_C(48));
-      data[56U] = static_cast<std::uint8_t>(my_bitlen >> UINT8_C(56));
+      my_data[63U] = static_cast<std::uint8_t>(my_bitlen >> UINT8_C( 0));
+      my_data[62U] = static_cast<std::uint8_t>(my_bitlen >> UINT8_C( 8));
+      my_data[61U] = static_cast<std::uint8_t>(my_bitlen >> UINT8_C(16));
+      my_data[60U] = static_cast<std::uint8_t>(my_bitlen >> UINT8_C(24));
+      my_data[59U] = static_cast<std::uint8_t>(my_bitlen >> UINT8_C(32));
+      my_data[58U] = static_cast<std::uint8_t>(my_bitlen >> UINT8_C(40));
+      my_data[57U] = static_cast<std::uint8_t>(my_bitlen >> UINT8_C(48));
+      my_data[56U] = static_cast<std::uint8_t>(my_bitlen >> UINT8_C(56));
 
       sha256_transform();
 
@@ -123,10 +123,11 @@
 
     std::uint32_t          my_datalen { };
     std::uint64_t          my_bitlen  { };
-    transform_context_type transform_context { };
-    std::array<std::uint8_t, 64U> data;
 
-    static constexpr std::array<std::uint32_t, 64U> transform_constants =
+    std::array<std::uint8_t, 64U> my_data    { };
+    transform_context_type transform_context { };
+
+    static constexpr std::array<std::uint32_t, UINT8_C(64)> transform_constants =
     {
       UINT32_C(0x428A2F98), UINT32_C(0x71374491), UINT32_C(0xB5C0FBCF), UINT32_C(0xE9B5DBA5),
       UINT32_C(0x3956C25B), UINT32_C(0x59F111F1), UINT32_C(0x923F82A4), UINT32_C(0xAB1C5ED5),
@@ -151,17 +152,17 @@
       std::uint32_t tmp1 = 0U;
       std::uint32_t tmp2 = 0U;
 
-      std::array<std::uint32_t, 8U> state = {0U};
-      std::array<std::uint32_t, 64U> m    = {0U};
+      std::array<std::uint32_t, 8U> state = { };
+      std::array<std::uint32_t, 64U> m    = { };
 
       for(std::size_t i = 0U, j = 0U; i < 16U; ++i, j += 4U)
       {
         m[i] = static_cast<std::uint32_t>
         (
-            static_cast<std::uint32_t>(static_cast<std::uint32_t>(data[j + 0U]) << 24U)
-          | static_cast<std::uint32_t>(static_cast<std::uint32_t>(data[j + 1U]) << 16U)
-          | static_cast<std::uint32_t>(static_cast<std::uint32_t>(data[j + 2U]) <<  8U)
-          | static_cast<std::uint32_t>(static_cast<std::uint32_t>(data[j + 3U]) <<  0U)
+            static_cast<std::uint32_t>(static_cast<std::uint32_t>(my_data[j + 0U]) << 24U)
+          | static_cast<std::uint32_t>(static_cast<std::uint32_t>(my_data[j + 1U]) << 16U)
+          | static_cast<std::uint32_t>(static_cast<std::uint32_t>(my_data[j + 2U]) <<  8U)
+          | static_cast<std::uint32_t>(static_cast<std::uint32_t>(my_data[j + 3U]) <<  0U)
         );
       }
 
