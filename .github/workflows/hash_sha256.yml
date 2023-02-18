@@ -70,7 +70,8 @@ jobs:
         run: |
           set INCLUDE=%cd%;%INCLUDE%
           set CL=/DHASH_HASH256_PC
-          MSBuild /std:c++20 -m hash_sha256.sln -p:useenv=true -p:Configuration=Release -p:Platform=x64 /t:Rebuild
+          #MSBuild -m hash_sha256.sln -p:useenv=true -p:Configuration=Release -p:Platform=x64 /t:Rebuild
+          cl hash_sha256_test.cpp -I. -DHASH_HASH256_PC /std:c++20
           dir %cd%\Out\Bin\Release\hash_sha256.exe
           %cd%\Out\Bin\Release\hash_sha256.exe
   gnumake-clang-tidy-12-native:
