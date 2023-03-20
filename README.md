@@ -20,6 +20,8 @@ hash_sha256
         <img src="https://img.shields.io/badge/license-BSL%201.0-blue.svg" alt="Boost Software License 1.0"></a>
     <a href="https://github.com/imahjoub/hash_sha256" alt="Activity">
         <img src="https://img.shields.io/github/commit-activity/y/imahjoub/hash_sha256" /></a>
+    <a href="https://godbolt.org/z/3xrxdK7f9" alt="godbolt">
+        <img src="https://img.shields.io/badge/try%20it%20on-godbolt-green" /></a>
 </p>
 
 A simple implementation of SHA-256 in C++ (header-only). This implementation uses little endian byte order.
