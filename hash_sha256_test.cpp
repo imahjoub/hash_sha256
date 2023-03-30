@@ -18,7 +18,7 @@ auto hash_sha256_test1() -> bool
 {
   const std::array<std::uint8_t, 3U> msg1 = {'a', 'b', 'c' };
 
-  sha256_output_type expected_hash1 =
+  sha256_type expected_hash1 =
   {
     0xBAU, 0x78U, 0x16U, 0xBFU, 0x8FU, 0x01U, 0xCFU, 0xEAU,
     0x41U, 0x41U, 0x40U, 0xDEU, 0x5DU, 0xAEU, 0x22U, 0x23U,
@@ -32,7 +32,7 @@ auto hash_sha256_test1() -> bool
 
   hash1.sha256_update(msg1.data(), msg1.size());
 
-  sha256_output_type hash_result1 = hash1.sha256_final();
+  sha256_type hash_result1 = hash1.sha256_final();
 
   return (hash_result1 == expected_hash1);
 }
@@ -56,7 +56,7 @@ auto hash_sha256_test2() -> bool
      "abcdefghijklmnopqrstuvwxyz"
    };
 
-  sha256_output_type expected_hash2 =
+  sha256_type expected_hash2 =
   {
     0x06U, 0x4EU, 0xAEU, 0x61U, 0x97U, 0x8DU, 0xDBU, 0x8CU,
     0x86U, 0x76U, 0x4DU, 0xEFU, 0xD7U, 0x87U, 0x42U, 0x09U,
@@ -70,7 +70,7 @@ auto hash_sha256_test2() -> bool
 
   hash2.sha256_update(msg2, strlen(reinterpret_cast<const char*>(msg2)));
 
-  sha256_output_type hash_result2 = hash2.sha256_final();
+  sha256_type hash_result2 = hash2.sha256_final();
 
   return (hash_result2 == expected_hash2);
 }
