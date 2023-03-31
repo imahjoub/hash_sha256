@@ -32,19 +32,19 @@ A simple implementation of SHA-256 in C++ (header-only). This implementation use
 
   ```cpp
   // Create an object of hash_sha256
-  hash_sha256 hash1;
+  hash_sha256 hash;
 
   // Original message
-  const std::array<std::uint8_t, 3U> msg1 = {'a', 'b', 'c' };
+  const std::array<std::uint8_t, 3U> msg = {'a', 'b', 'c' };
 
   // Initialize hash
-  hash1.sha256_init();
+  hash.sha256_init();
 
   // Update the hash with given data
-  hash1.sha256_update(msg1.data(), msg1.size());
+  hash.sha256_update(msg.data(), msg.size());
 
   // Get hash result
-  sha256_output_type hash_result1 = hash1.sha256_final();
+  sha256_output_type hash_result = hash.sha256_final();
   ```
 
 ## Testing, continuous integration and quality

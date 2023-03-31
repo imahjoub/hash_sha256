@@ -14,7 +14,7 @@
   #include <array>
   #include <cstdint>
 
-  using sha256_output_type = std::array<std::uint8_t, 32U>;
+  using sha256_type = std::array<std::uint8_t, 32U>;
 
   class hash_sha256
   {
@@ -58,10 +58,10 @@
       }
     }
 
-    auto sha256_final() -> sha256_output_type
+    auto sha256_final() -> sha256_type
     {
       std::size_t i = 0U;
-      sha256_output_type hash_result = {0U};
+      sha256_type hash_result = {0U};
       i = datalen;
 
       // Pad whatever data is left in the buffer.
