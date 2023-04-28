@@ -28,7 +28,7 @@ A simple implementation of SHA-256 in C++ (header-only). This implementation use
 
 ## Using the `hash_sha256`
 
-  * The following program shows a test example
+  * The following program shows a test example, which is compiled sucessfully int he following [short link](https://godbolt.org/z/6o77bqf6M) to [godbolt](https://godbolt.org/z/6o77bqf6M).
 
   ```cpp
   // Create an object of hash_sha256
@@ -61,8 +61,8 @@ These include
 [LGTM](https://lgtm.com/projects/g/imahjoub/hash_sha256/alerts/?mode=list) and [CodeSonar](https://sonarcloud.io/summary/new_code?id=imahjoub_hash_sha256).
 
 ## Algorithm efficiency
-This measurement follows the technique described in [ckormanyos/real-time-cpp](https://sonarcloud.io/summary/new_code?id=imahjoub_hash_sha256),
-in particular from the [Benchmarks](https://github.com/ckormanyos/real-time-cpp/tree/master/ref_app/src/app/benchmark)
+This measurement follows the technique described in [ckormanyos/real-time-cpp](https://github.com/ckormanyos/real-time-cpp),
+in particular from the [Benchmarks](https://github.com/ckormanyos/real-time-cpp/tree/master/ref_app/src/app/benchmark).
 
 The test equipment is shown in the picture below
 
