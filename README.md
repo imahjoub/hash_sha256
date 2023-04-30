@@ -28,7 +28,7 @@ A simple implementation of SHA-256 in C++ (header-only). This implementation use
 
 ## Using the `hash_sha256`
 
-  * The following program shows a test example
+  * The following program shows a test example, which is compiled sucessfully int he following [short link](https://godbolt.org/z/6o77bqf6M) to [godbolt](https://godbolt.org/z/6o77bqf6M).
 
   ```cpp
   // Create an object of hash_sha256
@@ -61,10 +61,17 @@ These include
 [LGTM](https://lgtm.com/projects/g/imahjoub/hash_sha256/alerts/?mode=list) and [CodeSonar](https://sonarcloud.io/summary/new_code?id=imahjoub_hash_sha256).
 
 ## Algorithm efficiency
-The following picture shows the real-time measurement of the `sha256` benchmark run on 32-bit microcontrollers (ARM Cortex™ M4) of the `NUCLEO-F446RE` board.
-The hash calculation takes about 32 µs
+This measurement follows the technique described in [ckormanyos/real-time-cpp](https://github.com/ckormanyos/real-time-cpp),
+in particular from the [Benchmarks](https://github.com/ckormanyos/real-time-cpp/tree/master/ref_app/src/app/benchmark).
 
-![sha_256](https://user-images.githubusercontent.com/48915588/206875379-1ba68838-5d61-4fde-b43c-ccdc65641f6e.jpg)
+* The test equipment is shown in the picture below
+
+![bench_equipement](https://user-images.githubusercontent.com/48915588/235359942-c63cec9d-1624-400b-b027-a3a885f1d36c.jpg)
+
+
+* The following picture shows the real-time measurement of the sha256 benchmark run on 32-bit microcontrollers (ARM Cortex™ M4) of the NUCLEO-F446RE board. The hash calculation takes about 31 µs
+
+![bench_2](https://user-images.githubusercontent.com/48915588/235360472-2e58c898-abc0-491e-9a1e-180b5012c689.jpg)
 
 
 ## References
