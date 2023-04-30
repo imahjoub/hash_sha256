@@ -64,9 +64,14 @@ These include
 This measurement follows the technique described in [ckormanyos/real-time-cpp](https://github.com/ckormanyos/real-time-cpp),
 in particular from the [Benchmarks](https://github.com/ckormanyos/real-time-cpp/tree/master/ref_app/src/app/benchmark).
 
-The test equipment is shown in the picture below
+* The test equipment is shown in the picture below
 
-![sha_256](https://user-images.githubusercontent.com/48915588/206875379-1ba68838-5d61-4fde-b43c-ccdc65641f6e.jpg)
+![bench_equipement](https://user-images.githubusercontent.com/48915588/235359942-c63cec9d-1624-400b-b027-a3a885f1d36c.jpg)
+
+
+* The following picture shows the real-time measurement of the sha256 benchmark run on 32-bit microcontrollers (ARM Cortex™ M4) of the NUCLEO-F446RE board. The hash calculation takes about 31 µs
+
+![bench_2](https://user-images.githubusercontent.com/48915588/235360472-2e58c898-abc0-491e-9a1e-180b5012c689.jpg)
 
 
 ## References
