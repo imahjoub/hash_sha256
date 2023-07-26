@@ -1,8 +1,8 @@
 # -----------------------------------------------------
-#  Copyright Iliass Mahjoub 2022 - 2023.              
-#  Distributed under the Boost Software License,      
+#  Copyright Iliass Mahjoub 2022 - 2023.
+#  Distributed under the Boost Software License,
 #  Version 1.0. (See accompanying file LICENSE_1_0.txt
-#  or copy at http://www.boost.org/LICENSE_1_0.txt)   
+#  or copy at http://www.boost.org/LICENSE_1_0.txt)
 # -----------------------------------------------------
 
 name: hash_sha256
@@ -132,3 +132,29 @@ jobs:
           echo "qemu_result" "$qemu_result"
           echo "qemu_result" "$qemu_result" | grep 'qemu_result 0'
         working-directory: .
+  valgrind-check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      fail-fast: false
+      matrix:
+        standard: [ c++2a ]
+        compiler: [ g++-12]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+      - name: update-tools
+        run: sudo apt-get install g++-12 valgrind
+      - name: valgrind-check
+        run: |
+          echo "+++ compile"
+          ${{ matrix.compiler }} -v
+          ${{ matrix.compiler }} -m64 -Werror -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -O3 -std=${{ matrix.standard }} hash_sha256_test.cpp -DHASH_HASH256_PC -I. -o hash_sha256.exe
+          echo "+++ run valgrind"
+          valgrind --leak-check=yes --log-file=hash_sha256_valgrind.txt ./hash_sha256.exe
+          grep '0 bytes in 0 blocks' hash_sha256_valgrind.txt
+          grep '0 errors from 0 contexts' hash_sha256_valgrind.txt
+
