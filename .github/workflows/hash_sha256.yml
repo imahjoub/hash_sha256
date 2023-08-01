@@ -157,4 +157,3 @@ jobs:
           valgrind --leak-check=yes --log-file=hash_sha256_valgrind.txt ./hash_sha256.exe
           grep '0 bytes in 0 blocks' hash_sha256_valgrind.txt
           grep '0 errors from 0 contexts' hash_sha256_valgrind.txt
-
