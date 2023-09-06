@@ -28,7 +28,7 @@ A simple implementation of SHA-256 in C++ (header-only). This implementation use
 
 ## Using the `hash_sha256`
 
-  * The following program shows a test example, which is compiled sucessfully int he following [short link](https://godbolt.org/z/6o77bqf6M) to [godbolt](https://godbolt.org/z/6o77bqf6M).
+  * The following program shows a test example, which is compiled sucessfully in the following [short link](https://godbolt.org/z/6o77bqf6M) to [godbolt](https://godbolt.org/z/6o77bqf6M).
 
   ```cpp
   // Create an object of hash_sha256
