@@ -31,7 +31,7 @@ auto hash_sha256_test1() -> bool
   constexpr sha256_type hash_result1 = hash1.sha256_result();
 
   static_assert(hash_result1.front() == static_cast<std::uint8_t>(UINT8_C(0xBA)), "Error: Undexpected front-byte Hash Result");
-  static_assert(hash_result1.back() == static_cast<std::uint8_t>(UINT8_C(0xAD)), "Error: Undexpected back-byte Hash Result");
+  static_assert(hash_result1.back()  == static_cast<std::uint8_t>(UINT8_C(0xAD)), "Error: Undexpected back-byte Hash Result");
 
   constexpr auto result_is_ok = detail::equal(hash_result1.cbegin(), hash_result1.cend(), expected_hash1.cbegin());
 
@@ -43,21 +43,21 @@ auto hash_sha256_test1() -> bool
 #ifdef HASH_HASH256_PC
 auto hash_sha256_test2() -> bool
 {
-   const uint8_t msg2[] =
-   {
-     "abcdefghijklmnopqrstuvwxyz"
-     "abcdefghijklmnopqrstuvwxyz"
-     "abcdefghijklmnopqrstuvwxyz"
-     "abcdefghijklmnopqrstuvwxyz"
-     "abcdefghijklmnopqrstuvwxyz"
-     "abcdefghijklmnopqrstuvwxyz"
-     "abcdefghijklmnopqrstuvwxyz"
-     "abcdefghijklmnopqrstuvwxyz"
-     "abcdefghijklmnopqrstuvwxyz"
-     "abcdefghijklmnopqrstuvwxyz"
-     "abcdefghijklmnopqrstuvwxyz"
-     "abcdefghijklmnopqrstuvwxyz"
-   };
+  const uint8_t msg2[] =
+  {
+    "abcdefghijklmnopqrstuvwxyz"
+    "abcdefghijklmnopqrstuvwxyz"
+    "abcdefghijklmnopqrstuvwxyz"
+    "abcdefghijklmnopqrstuvwxyz"
+    "abcdefghijklmnopqrstuvwxyz"
+    "abcdefghijklmnopqrstuvwxyz"
+    "abcdefghijklmnopqrstuvwxyz"
+    "abcdefghijklmnopqrstuvwxyz"
+    "abcdefghijklmnopqrstuvwxyz"
+    "abcdefghijklmnopqrstuvwxyz"
+    "abcdefghijklmnopqrstuvwxyz"
+    "abcdefghijklmnopqrstuvwxyz"
+  };
 
   sha256_type expected_hash2 =
   {
@@ -72,6 +72,8 @@ auto hash_sha256_test2() -> bool
   hash2.sha256_init();
 
   hash2.sha256_update(msg2, strlen(reinterpret_cast<const char*>(msg2)));
+
+  hash2.sha256_final();
 
   sha256_type hash_result2 = hash2.sha256_result();
 
