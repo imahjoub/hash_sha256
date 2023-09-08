@@ -13,21 +13,82 @@
   #include <algorithm>
   #include <array>
   #include <cstdint>
+  #include <iomanip>
+  #include <iostream>
+
+  namespace detail {
+
+  // Use a local, constexpr, unsafe implementation of the fill-function.
+  template<typename DestinationIterator,
+           typename ValueType>
+  inline constexpr auto fill_unsafe(DestinationIterator first, DestinationIterator last, ValueType val) -> void
+  {
+    while(first != last)
+    {
+      using local_destination_value_type = typename std::iterator_traits<DestinationIterator>::value_type;
+
+      *first++ = static_cast<local_destination_value_type>(val);
+    }
+  }
+
+  // Use a local, constexpr, unsafe implementation of the copy-function.
+  template<typename InputIterator,
+           typename DestinationIterator>
+  inline constexpr auto copy_unsafe(InputIterator first, InputIterator last, DestinationIterator dest) -> DestinationIterator
+  {
+    while(first != last)
+    {
+      using local_destination_value_type = typename std::iterator_traits<DestinationIterator>::value_type;
+
+      *dest++ = static_cast<local_destination_value_type>(*first++);
+    }
+
+    return dest;
+  }
+
+    template<typename input_iterator1,
+             typename input_iterator2>
+    constexpr auto equal(input_iterator1 first1,
+                         input_iterator1 last1,
+                         input_iterator2 first2) -> bool
+    {
+      while(first1 != last1)
+      {
+        if((*first1) != (*first2))
+        {
+          break;
+        }
+
+        ++first1;
+        ++first2;
+      }
+
+      return (first1 == last1);
+    }
+
+  } // namespace detail
 
   using sha256_type = std::array<std::uint8_t, 32U>;
 
   class hash_sha256
   {
   public:
-    hash_sha256()                   = default;
-    hash_sha256(const hash_sha256&) = delete;
-    hash_sha256(hash_sha256&&)      = delete;
-    virtual ~hash_sha256()          = default; // LCOV_EXCL_LINE
+    constexpr hash_sha256() { };
 
-    auto operator=(hash_sha256&&)      -> hash_sha256& = delete;
-    auto operator=(const hash_sha256&) -> hash_sha256& = delete;
+    constexpr explicit hash_sha256(const std::uint8_t* msg, const size_t length)
+    {
+      sha256_init();
+      sha256_update(msg, length);
+      static_cast<void>(sha256_final());
+    };
 
-    auto sha256_init() -> void
+    constexpr hash_sha256(const hash_sha256&) = default;
+    constexpr hash_sha256(hash_sha256&&) noexcept = default;
+
+    constexpr auto operator=(hash_sha256&&) noexcept -> hash_sha256& = default;
+    constexpr auto operator=(const hash_sha256&) -> hash_sha256& = default;
+
+    constexpr auto sha256_init() -> void
     {
       datalen = 0U;
       bitlen  = 0U;
@@ -42,7 +103,7 @@
       init_hash_val[7U] = UINT32_C(0x5BE0CD19);
     }
 
-    auto sha256_update(const std::uint8_t* msg, const size_t length) -> void
+    constexpr auto sha256_update(const std::uint8_t* msg, const size_t length) -> void
     {
       for (std::size_t i = 0U; i < length; ++i)
       {
@@ -58,25 +119,24 @@
       }
     }
 
-    auto sha256_final() -> sha256_type
+    constexpr auto sha256_final() -> void
     {
-      std::size_t i = 0U;
-      sha256_type hash_result = {0U};
-      i = datalen;
+      std::size_t i = datalen;
+
+      detail::fill_unsafe(hash_result.begin(), hash_result.end(), 0U);
 
       // Pad whatever data is left in the buffer.
       if(datalen < 56U)
       {
         data[i++] = 0x80U;
-        std::fill((data.begin() + i), (data.begin() + 56U), 0U);
+        detail::fill_unsafe((data.begin() + i), (data.begin() + 56U), 0U);
       }
-
       else
       {
         data[i++] = 0x80U;
-        std::fill((data.begin() + i), data.end(), 0U);
+        detail::fill_unsafe((data.begin() + i), data.end(), 0U);
         sha256_transform();
-        std::fill_n(data.begin(), 56U, 0U);
+        detail::fill_unsafe(data.begin(), data.begin() + 56U, 0U);
       }
 
       // Append to the padding the total message's length in bits and transform.
@@ -106,15 +166,20 @@
         hash_result[j + 24U] = ((init_hash_val[6U] >> (24U - (j * 8U))) & UINT32_C(0x000000FF));
         hash_result[j + 28U] = ((init_hash_val[7U] >> (24U - (j * 8U))) & UINT32_C(0x000000FF));
       }
+    }
 
+    constexpr auto sha256_result() const -> sha256_type
+    {
       return hash_result;
     }
 
   private:
-    std::uint32_t datalen;
-    std::uint64_t bitlen;
-    std::array<std::uint8_t, 64U> data;
-    std::array<std::uint32_t, 8U> init_hash_val;
+    std::uint32_t datalen { };
+    std::uint64_t bitlen { };
+    std::array<std::uint8_t, 64U> data { };
+    std::array<std::uint32_t, 8U> init_hash_val { };
+    using sha256_type = std::array<std::uint8_t, 32U>;
+    sha256_type hash_result { };
 
     static constexpr std::array<std::uint32_t, 64U> K =
     {
@@ -136,7 +201,7 @@
       UINT32_C(0x90BEFFFA), UINT32_C(0xA4506CEB), UINT32_C(0xBEF9A3F7), UINT32_C(0xC67178F2)
     };
 
-    auto sha256_transform() -> void
+    constexpr auto sha256_transform() -> void
     {
       std::uint32_t tmp1 = 0U;
       std::uint32_t tmp2 = 0U;
@@ -160,7 +225,7 @@
         m[i] = ssig1(m[i - 2U]) + m[i - 7U] + ssig0(m[i - 15U]) + m[i - 16U];
       }
 
-      std::copy(init_hash_val.begin(), init_hash_val.end() , state.begin());
+      detail::copy_unsafe(init_hash_val.cbegin(), init_hash_val.cend() , state.begin());
 
       for(std::size_t i = 0U; i < 64U; ++i)
       {
@@ -189,45 +254,46 @@
     }
 
     // circular left shift ROTR^n(x)
-    static inline auto rotl(std::uint32_t a, std::uint32_t b) -> std::uint32_t
+    static inline constexpr auto rotl(std::uint32_t a, std::uint32_t b) -> std::uint32_t
     {
       return (static_cast<std::uint32_t>(a << b) | static_cast<std::uint32_t>(a >> (32U - b)));
     }
 
     // circular right shift ROTR^n(x)
-    static inline auto rotr(std::uint32_t a, std::uint32_t b) -> std::uint32_t
+    static inline constexpr auto rotr(std::uint32_t a, std::uint32_t b) -> std::uint32_t
     {
       return (static_cast<std::uint32_t>(a >> b) | static_cast<std::uint32_t>(a << (32U - b)));
     }
 
-    static inline auto ch(std::uint32_t x, std::uint32_t y, std::uint32_t z) -> std::uint32_t
+    static inline constexpr auto ch(std::uint32_t x, std::uint32_t y, std::uint32_t z) -> std::uint32_t
     {
       return (static_cast<std::uint32_t>(x & y) ^ static_cast<std::uint32_t>(~x & z));
     }
 
-    static inline auto maj(std::uint32_t x, std::uint32_t y, std::uint32_t z) -> std::uint32_t
+    static inline constexpr auto maj(std::uint32_t x, std::uint32_t y, std::uint32_t z) -> std::uint32_t
     {
       return (static_cast<std::uint32_t>(x & y) ^ static_cast<std::uint32_t>(x & z) ^ static_cast<std::uint32_t>(y & z));
     }
 
-    static inline auto bsig0(std::uint32_t x) -> std::uint32_t
+    static inline constexpr auto bsig0(std::uint32_t x) -> std::uint32_t
     {
       return (rotr(x, 2U) ^ rotr(x, 13U) ^ rotr(x, 22U));
     }
 
-    static inline auto bsig1(std::uint32_t x) -> std::uint32_t
+    static inline constexpr auto bsig1(std::uint32_t x) -> std::uint32_t
     {
       return (rotr(x, 6U) ^ rotr(x, 11U) ^ rotr(x, 25U));
     }
 
-    static inline auto ssig0(std::uint32_t x) -> std::uint32_t
+    static inline constexpr auto ssig0(std::uint32_t x) -> std::uint32_t
     {
       return (rotr(x, 7U) ^ rotr(x, 18U) ^ (x >> 3U));
     }
 
-    static inline auto ssig1(std::uint32_t x) -> std::uint32_t
+    static inline constexpr auto ssig1(std::uint32_t x) -> std::uint32_t
     {
       return (rotr(x, 17U) ^ rotr(x, 19U) ^ (x >> 10U));
     }
   };
+
 #endif // HASH_SHA256_2022_06_02_H

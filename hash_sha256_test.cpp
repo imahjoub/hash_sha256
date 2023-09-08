@@ -16,9 +16,9 @@
 
 auto hash_sha256_test1() -> bool
 {
-  const std::array<std::uint8_t, 3U> msg1 = {'a', 'b', 'c' };
+  constexpr std::array<std::uint8_t, 3U> msg1 = {'a', 'b', 'c' };
 
-  sha256_type expected_hash1 =
+  constexpr sha256_type expected_hash1 =
   {
     0xBAU, 0x78U, 0x16U, 0xBFU, 0x8FU, 0x01U, 0xCFU, 0xEAU,
     0x41U, 0x41U, 0x40U, 0xDEU, 0x5DU, 0xAEU, 0x22U, 0x23U,
@@ -26,13 +26,16 @@ auto hash_sha256_test1() -> bool
     0xB4U, 0x10U, 0xFFU, 0x61U, 0xF2U, 0x00U, 0x15U, 0xADU
   };
 
-  hash_sha256 hash1;
+  constexpr hash_sha256 hash1(msg1.data(), msg1.size());
 
-  hash1.sha256_init();
+  constexpr sha256_type hash_result1 = hash1.sha256_result();
 
-  hash1.sha256_update(msg1.data(), msg1.size());
+  static_assert(hash_result1.front() == static_cast<std::uint8_t>(UINT8_C(0xBA)), "Error: Undexpected front-byte Hash Result");
+  static_assert(hash_result1.back() == static_cast<std::uint8_t>(UINT8_C(0xAD)), "Error: Undexpected back-byte Hash Result");
 
-  sha256_type hash_result1 = hash1.sha256_final();
+  constexpr auto result_is_ok = detail::equal(hash_result1.cbegin(), hash_result1.cend(), expected_hash1.cbegin());
+
+  static_assert(result_is_ok, "Error: Undexpected total Hash Result");
 
   return (hash_result1 == expected_hash1);
 }
@@ -70,7 +73,7 @@ auto hash_sha256_test2() -> bool
 
   hash2.sha256_update(msg2, strlen(reinterpret_cast<const char*>(msg2)));
 
-  sha256_type hash_result2 = hash2.sha256_final();
+  sha256_type hash_result2 = hash2.sha256_result();
 
   return (hash_result2 == expected_hash2);
 }
