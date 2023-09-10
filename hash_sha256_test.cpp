@@ -40,7 +40,6 @@ auto hash_sha256_test1() -> bool
   return (hash_result1 == expected_hash1);
 }
 
-#ifdef HASH_HASH256_PC
 auto hash_sha256_test2() -> bool
 {
   constexpr uint8_t msg2[] =
@@ -81,7 +80,7 @@ auto hash_sha256_test2() -> bool
 
   return result_is_ok;
 }
-#endif // HASH_HASH256_PC
+
 
 extern "C"
 {
@@ -118,7 +117,7 @@ auto main() -> int
 
   std::cout << "hash_result_is_ok: " << std::boolalpha << hash_result_is_ok << std::endl;
 
-  #endif // STD_HASH256_QEMU
+  #endif // HASH_HASH256_QEMU
 
   return hash_result_is_ok ? 0 : -1;
 }
