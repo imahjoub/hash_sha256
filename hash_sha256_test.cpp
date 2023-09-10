@@ -8,8 +8,8 @@
 ///////////////////////////////////////////////////////////////////
 
 #ifdef HASH_HASH256_PC
-#include <iostream>
 #include <cstring>
+#include <iostream>
 #endif // HASH_HASH256_PC
 
 #include <hash_sha256/hash_sha256.h>
@@ -94,7 +94,7 @@ extern "C"
     hash_sha256_gdb_result =
       static_cast<std::uint32_t>
       (
-        hash_sha256_test1() ? UINT32_C(0xF00DCAFE) : UINT32_C(0xFFFFFFFF)
+        hash_sha256_test2() ? UINT32_C(0xF00DCAFE) : UINT32_C(0xFFFFFFFF)
       );
 
     volatile auto hash_result_is_ok =
