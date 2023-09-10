@@ -43,7 +43,7 @@ auto hash_sha256_test1() -> bool
 #ifdef HASH_HASH256_PC
 auto hash_sha256_test2() -> bool
 {
-  const uint8_t msg2[] =
+  constexpr uint8_t msg2[] =
   {
     "abcdefghijklmnopqrstuvwxyz"
     "abcdefghijklmnopqrstuvwxyz"
@@ -59,7 +59,7 @@ auto hash_sha256_test2() -> bool
     "abcdefghijklmnopqrstuvwxyz"
   };
 
-  sha256_type expected_hash2 =
+  constexpr sha256_type expected_hash2 =
   {
     0x06U, 0x4EU, 0xAEU, 0x61U, 0x97U, 0x8DU, 0xDBU, 0x8CU,
     0x86U, 0x76U, 0x4DU, 0xEFU, 0xD7U, 0x87U, 0x42U, 0x09U,
@@ -76,6 +76,8 @@ auto hash_sha256_test2() -> bool
   hash2.sha256_final();
 
   sha256_type hash_result2 = hash2.sha256_result();
+
+  const auto result_is_ok = detail::equal(hash_result2.cbegin(), hash_result2.cend(), expected_hash2.cbegin());
 
   return (hash_result2 == expected_hash2);
 }
