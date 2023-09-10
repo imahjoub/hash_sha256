@@ -79,7 +79,7 @@ auto hash_sha256_test2() -> bool
 
   const auto result_is_ok = detail::equal(hash_result2.cbegin(), hash_result2.cend(), expected_hash2.cbegin());
 
-  return (hash_result2 == expected_hash2);
+  return result_is_ok;
 }
 #endif // HASH_HASH256_PC
 
