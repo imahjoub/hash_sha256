@@ -8,9 +8,9 @@
 ///////////////////////////////////////////////////////////////////
 
 #ifdef HASH_HASH256_PC
-#include <cstring>
 #include <iostream>
 #endif // HASH_HASH256_PC
+#include <cstring>
 
 #include <hash_sha256/hash_sha256.h>
 
