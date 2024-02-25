@@ -1,8 +1,8 @@
 # -----------------------------------------------------
-#  Copyright Iliass Mahjoub 2022 - 2023.              
-#  Distributed under the Boost Software License,      
+#  Copyright Iliass Mahjoub 2022 - 2024.
+#  Distributed under the Boost Software License,
 #  Version 1.0. (See accompanying file LICENSE_1_0.txt
-#  or copy at http://www.boost.org/LICENSE_1_0.txt)   
+#  or copy at http://www.boost.org/LICENSE_1_0.txt)
 # -----------------------------------------------------
 
 name: hash_sha256_sonar
@@ -33,7 +33,7 @@ jobs:
           SONAR_SCANNER_DOWNLOAD_URL: https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${{ env.SONAR_SCANNER_VERSION }}-linux.zip
         run: |
           mkdir -p $HOME/.sonar
-          curl -sSLo $HOME/.sonar/sonar-scanner.zip ${{ env.SONAR_SCANNER_DOWNLOAD_URL }} 
+          curl -sSLo $HOME/.sonar/sonar-scanner.zip ${{ env.SONAR_SCANNER_DOWNLOAD_URL }}
           unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
           echo "$HOME/.sonar/sonar-scanner-${{ env.SONAR_SCANNER_VERSION }}-linux/bin" >> $GITHUB_PATH
       - name: Download and set up build-wrapper
