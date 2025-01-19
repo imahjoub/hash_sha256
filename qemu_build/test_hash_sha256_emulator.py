@@ -4,8 +4,8 @@
 #
 # Created:     21/09/2022
 #
-# Copyright:   Copyright Iliass Mahjoub 2022 - 2024.
-#              Copyright Christopher Kormanyos 2007 - 2024.
+# Copyright:   Copyright Iliass Mahjoub 2022 - 2025.
+#              Copyright Christopher Kormanyos 2007 - 2025.
 #
 # Licence:     Distributed under the Boost Software License,
 #              Version 1.0. (See accompanying file LICENSE_1_0.txt
