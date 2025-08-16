@@ -24,6 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "qemu_build", "qemu_build", 
 	ProjectSection(SolutionItems) = preProject
 		qemu_build\stm32f429.ld = qemu_build\stm32f429.ld
 		qemu_build\stm32f429_startup.cpp = qemu_build\stm32f429_startup.cpp
+		qemu_build\test_hash_sha256_emulator.gdb = qemu_build\test_hash_sha256_emulator.gdb
 		qemu_build\test_hash_sha256_emulator.py = qemu_build\test_hash_sha256_emulator.py
 	EndProjectSection
 EndProject

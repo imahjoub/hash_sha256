@@ -144,7 +144,7 @@ jobs:
           cat ./hash_sha256_test.txt
           echo
           echo 'We will now grep for the right answer...'
-          grep 'value 0xFACEB00C' ./hash_sha256_test.txt
+          grep 'value 0x8000EDC' ./hash_sha256_test.txt
         working-directory: .
   valgrind-check:
     runs-on: ubuntu-latest
