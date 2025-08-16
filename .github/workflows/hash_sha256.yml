@@ -138,6 +138,8 @@ jobs:
         working-directory: .
       - name: run-test-on-target
         run: |
+          set PYTHONHOME=/usr/lib/python3.8
+          set PYTHONPATH=/usr/lib/python3.8
           PATH="${{ runner.workspace }}/hash_sha256/emu_env/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/bin:$PATH"
           echo 'Run test on target'
           arm-none-eabi-gdb-py ./bin/hash_sha256.elf -x ./qemu_build/test_hash_sha256_emulator.py
