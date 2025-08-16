@@ -138,7 +138,9 @@ jobs:
         working-directory: .
       - name: run-test-on-target
         run: |
-          ./emu_env/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gdb-py ./bin/hash_sha256_test.elf -x ./qemu_build/test_hash_sha256_emulator.py
+          PATH="${{ runner.workspace }}/hash_sha256/emu_env/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/bin:$PATH"
+          echo 'Run test on target'
+          arm-none-eabi-gdb-py ./bin/hash_sha256.elf -x ./target/build/test_examples_emulator.gdb > ./hash_sha256.txt
           qemu_result=$?
           echo "qemu_result" "$qemu_result"
           echo "qemu_result" "$qemu_result" | grep 'qemu_result 0'
