@@ -141,11 +141,11 @@ jobs:
           PATH="${{ runner.workspace }}/hash_sha256/emu_env/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/bin:$PATH"
           echo 'Run test on target'
           echo
-          arm-none-eabi-gdb ./bin/hash_sha256.elf -x ./qemu_build/test_hash_sha256_emulator.gdb > ./hash_sha256.txt
-          cat ./hash_sha256.txt
+          arm-none-eabi-gdb ./bin/hash_sha256_test.elf -x ./qemu_build/test_hash_sha256_emulator.gdb > ./hash_sha256_test.txt
+          cat ./hash_sha256_test.txt
           echo
           echo 'We will now grep for the right answer...'
-          grep 'value 0xFACEB00C' ./hash_sha256.txt
+          grep 'value 0xFACEB00C' ./hash_sha256_test.txt
         working-directory: .
   valgrind-check:
     runs-on: ubuntu-latest
