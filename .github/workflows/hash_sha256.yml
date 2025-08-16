@@ -140,7 +140,7 @@ jobs:
         run: |
           PATH="${{ runner.workspace }}/hash_sha256/emu_env/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/bin:$PATH"
           echo 'Run test on target'
-          arm-none-eabi-gdb-py ./bin/hash_sha256.elf -x ./target/build/test_examples_emulator.gdb > ./hash_sha256.txt
+          arm-none-eabi-gdb-py ./bin/hash_sha256.elf -x ./qemu_build/test_hash_sha256_emulator.py
           qemu_result=$?
           echo "qemu_result" "$qemu_result"
           echo "qemu_result" "$qemu_result" | grep 'qemu_result 0'
