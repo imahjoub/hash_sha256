@@ -87,11 +87,11 @@ extern "C"
     hash_sha256_gdb_result =
       static_cast<std::uint32_t>
       (
-        hash_sha256_test1() ? UINT32_C(0xF00DCAFE) : UINT32_C(0xFFFFFFFF)
+        hash_sha256_test1() ? UINT32_C(0xFACEB00C) : UINT32_C(0xFFFFFFFF)
       );
 
     volatile auto hash_result_is_ok =
-      (hash_sha256_gdb_result == UINT32_C(0xF00DCAFE));
+      (hash_sha256_gdb_result == UINT32_C(0xFACEB00C));
 
     return hash_result_is_ok;
   }
