@@ -13,13 +13,13 @@ monitor halt
 load
 
 # Set a breakpoint at the specified subroutine.
-break hash_sha256_gdb_result
+break hash_sha256_get_gdb_result
 
 # Start or continue program execution.
 continue
 
 # Format and print the value of a variable.
-printf "value 0x%X\n\n", hash_sha256_gdb_result
+printf "value 0x%X\n\n", hash_sha256_get_gdb_result
 
 # Delete (all) breakpoint(s).
 delete
